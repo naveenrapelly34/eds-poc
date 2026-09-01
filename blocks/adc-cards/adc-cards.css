@@ -1,0 +1,19 @@
+.adc-cards .adc-cards-section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.adc-cards .adc-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--adc-cards-cols, 3), 1fr);
+  gap: 1.5rem;
+}
+
+@media (width <= 640px) {
+  .adc-cards .adc-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

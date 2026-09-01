@@ -1,0 +1,42 @@
+/* stylelint-disable selector-class-pattern */
+
+.adc-logo .logo-comp {
+  --logo-max-height-des: 40px;
+  --logo-max-height-tab: 36px;
+  --logo-max-height-mob: 30px;
+  --logo-image-width: 120px;
+
+  display: inline-block;
+}
+
+.adc-logo .logo-comp--link {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.adc-logo .logo-comp--link:focus-visible img {
+  outline: 2px solid #009cde;
+  outline-offset: 4px;
+}
+
+.adc-logo .logo-comp .cmp-image {
+  width: var(--logo-image-width);
+}
+
+.adc-logo .logo-comp .cmp-image__image {
+  display: block;
+  max-width: 100%;
+  max-height: var(--logo-max-height-mob);
+}
+
+@media (width >= 768px) {
+  .adc-logo .logo-comp .cmp-image__image {
+    max-height: var(--logo-max-height-tab);
+  }
+}
+
+@media (width >= 992px) {
+  .adc-logo .logo-comp .cmp-image__image {
+    max-height: var(--logo-max-height-des);
+  }
+}

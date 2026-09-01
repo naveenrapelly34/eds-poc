@@ -1,0 +1,41 @@
+{
+  "definitions": [
+    {
+      "title": "ADC Tab Item",
+      "id": "adc-tabs-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "ADC Tab Item",
+              "model": "adc-tabs-item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "adc-tabs-item",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Tab Label",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "content",
+          "label": "Tab Content",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

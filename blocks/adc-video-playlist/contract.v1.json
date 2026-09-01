@@ -1,0 +1,24 @@
+{
+  "component": "video-playlist",
+  "title": "Video Playlist",
+  "items": [
+    {
+      "id": "video-1",
+      "brightcoveTitle": "Video Title 1",
+      "videoCaption": "This is the first playlist video caption.",
+      "videoType": "videoURL",
+      "videoURL": "https://www.youtube.com/embed/E0PmJgWNBpI",
+      "fallBackImage": "/blocks/adc-video-playlist/video-thumb-1.jpg"
+    },
+    {
+      "id": "video-2",
+      "brightcoveTitle": "Video Title 2",
+      "videoCaption": "Second video with Brightcove identifiers.",
+      "videoType": "brightCove",
+      "accountID": "1336131408001",
+      "playerID": "TNkY27yeX",
+      "videoID": "6355372939112",
+      "fallBackImage": "/blocks/adc-video-playlist/video-thumb-2.jpg"
+    }
+  ]
+}

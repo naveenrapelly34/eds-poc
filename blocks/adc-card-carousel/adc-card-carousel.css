@@ -1,0 +1,501 @@
+/* ============================================================
+   ADC Card Carousel — matches AEM cards-carousel + card SCSS
+   Design tokens mirror Abbott theme1 CSS vars
+   ============================================================ */
+
+/* --- Block-level tokens --- */
+.adc-card-carousel {
+  --adc-card-bg: #fff;
+  --adc-card-border-radius: 8px;
+  --adc-card-media-border-radius: 4px 4px 0 0;
+  --adc-card-media-height: 215px;
+  --adc-card-border: 1px solid transparent;
+  --adc-card-box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  --adc-card-title-color: #1a1a1a;
+  --adc-card-title-weight: 700;
+  --adc-card-desc-color: #464646;
+  --adc-card-link-color: #006eb6;
+  --adc-card-link-weight: 600;
+
+  /* Clickable-card variant */
+  --adc-card-clickable-radius: 20px;
+  --adc-card-clickable-media-radius: 15px 15px 0 0;
+  --adc-card-clickable-border: 5px solid #fff;
+  --adc-card-clickable-hover-border: 5px solid #d8d8d8;
+
+  /* Carousel chrome */
+  --adc-carousel-arrow-size: 44px;
+  --adc-carousel-arrow-bg: #1a1a1a;
+  --adc-carousel-arrow-color: #fff;
+  --adc-carousel-dot-height: 8px;
+  --adc-carousel-dot-radius: 10px;
+  --adc-carousel-dot-bg: #fff;
+  --adc-carousel-dot-border: #a0a0a0;
+  --adc-carousel-dot-active-bg: #003865;
+
+  position: relative;
+  width: 100%;
+  padding: 0;
+}
+
+/* --- Optional section heading --- */
+.adc-card-carousel .adc-carousel-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--adc-card-title-color);
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+/* ============================================================
+   Track / Slide layout
+   Track total-width = (total cards × item-width), positioned
+   with translateX. Item width = 100% / total.
+   ============================================================ */
+.adc-card-carousel .adc-carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.adc-card-carousel .adc-carousel-track {
+  display: flex;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+/* Each item's flex-basis = 100% / total cards, so perScreen items
+   fill the viewport. --adc-carousel-total is set inline by JS.   */
+.adc-card-carousel .adc-carousel-item {
+  flex: 0 0 calc(100% / var(--adc-carousel-per-screen, 3));
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   Card base — default variant
+   ============================================================ */
+.adc-card-carousel .adc-carousel-card {
+  background: var(--adc-card-bg);
+  border-radius: var(--adc-card-border-radius);
+  border: var(--adc-card-border);
+  box-shadow: var(--adc-card-box-shadow);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* --- Media area --- */
+.adc-card-carousel .adc-carousel-card-media {
+  position: relative;
+  height: var(--adc-card-media-height);
+  border-radius: var(--adc-card-media-border-radius);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.adc-card-carousel .adc-carousel-card-media picture,
+.adc-card-carousel .adc-carousel-card-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Logo overlay (bottom-left of image) */
+.adc-card-carousel .adc-carousel-card-logo {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  z-index: 2;
+}
+
+.adc-card-carousel .adc-carousel-card-logo img {
+  position: static;
+  width: auto;
+  height: 2.625rem;
+  object-fit: contain;
+  object-position: left;
+}
+
+/* --- Card body --- */
+.adc-card-carousel .adc-carousel-card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word;
+  position: relative;
+  z-index: 2;
+}
+
+.adc-card-carousel .adc-carousel-card-title {
+  font-size: 1.0625rem;
+  font-weight: var(--adc-card-title-weight);
+  color: var(--adc-card-title-color);
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.75rem;
+}
+
+.adc-card-carousel .adc-carousel-card-desc {
+  font-size: 0.9375rem;
+  color: var(--adc-card-desc-color);
+  line-height: 1.5;
+  flex-grow: 1;
+  margin: 0 0 1rem;
+}
+
+.adc-card-carousel .adc-carousel-card-desc p {
+  margin: 0;
+}
+
+/* --- CTA link (text link with underline on hover) --- */
+.adc-card-carousel .adc-carousel-card-cta {
+  margin-top: auto;
+}
+
+.adc-card-carousel .adc-carousel-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: var(--adc-card-link-weight);
+  color: var(--adc-card-link-color);
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.adc-card-carousel .adc-carousel-card-link:hover {
+  text-decoration: underline;
+}
+
+.adc-card-carousel .adc-carousel-card-link:focus-visible {
+  outline: 2px solid var(--adc-card-link-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Variant: information card
+   ============================================================ */
+.adc-card-carousel .adc-carousel-card-type-information {
+  border: 1px solid #d0d0d0;
+  border-radius: var(--adc-card-border-radius);
+}
+
+.adc-card-carousel .adc-carousel-card-type-information .adc-carousel-card-media {
+  height: 64px;
+  margin: 1.25rem 1.25rem 0;
+  border-radius: 0;
+}
+
+.adc-card-carousel .adc-carousel-card-type-information .adc-carousel-card-media picture,
+.adc-card-carousel .adc-carousel-card-type-information .adc-carousel-card-media img {
+  object-fit: contain;
+  object-position: left center;
+}
+
+.adc-card-carousel .adc-carousel-card-type-information .adc-carousel-card-body {
+  padding: 1rem 1.25rem 0.5rem;
+}
+
+.adc-card-carousel .adc-carousel-card-type-information .adc-carousel-card-title {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+/* ============================================================
+   Variant: support card — horizontal layout (image left, text right)
+   ============================================================ */
+.adc-card-carousel .adc-carousel-card-type-support {
+  border: 1px solid #d0d0d0;
+  border-radius: var(--adc-card-border-radius);
+}
+
+.adc-card-carousel .adc-carousel-card-type-support .adc-carousel-card-link-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding-left: 0.9375rem;
+}
+
+.adc-card-carousel .adc-carousel-card-type-support .adc-carousel-card-media {
+  flex: 0 0 120px;
+  height: 120px;
+  border-radius: 0;
+  padding-top: 1rem;
+}
+
+.adc-card-carousel .adc-carousel-card-type-support .adc-carousel-card-media img {
+  height: 64px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.adc-card-carousel .adc-carousel-card-type-support .adc-carousel-card-body {
+  padding-bottom: 1rem;
+}
+
+/* ============================================================
+   Variant: clickable-card
+   ============================================================ */
+.adc-card-carousel .adc-carousel-card-type-clickable-card {
+  border-radius: var(--adc-card-clickable-radius);
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-link-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  background: var(--adc-card-bg);
+  border-radius: var(--adc-card-clickable-radius);
+  border: var(--adc-card-clickable-border);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-link-wrap:hover,
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-link-wrap:focus {
+  border: var(--adc-card-clickable-hover-border);
+  outline: none;
+}
+
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-link-wrap:focus-visible {
+  outline: 2px solid #003865;
+  outline-offset: 2px;
+}
+
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-media {
+  border-radius: var(--adc-card-clickable-media-radius);
+}
+
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-body {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.adc-card-carousel .adc-carousel-card-type-clickable-card .adc-carousel-card-title {
+  color: var(--adc-card-link-color);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Variant: patient-story — circular image, yellow title bar
+   ============================================================ */
+.adc-card-carousel .adc-carousel-card-type-patient-story {
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-media {
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 0;
+}
+
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-media picture,
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-media img {
+  border-radius: 50%;
+}
+
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-body {
+  padding: 0;
+  align-items: flex-start;
+}
+
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-title {
+  position: relative;
+  padding-top: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-title::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: #ffd100;
+  border-radius: 10px;
+}
+
+.adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-cta {
+  margin-top: 2rem;
+}
+
+/* ============================================================
+   Variant: logo card
+   ============================================================ */
+.adc-card-carousel .adc-carousel-card-type-logo .adc-carousel-card-media {
+  border-radius: 0;
+  border: 1px solid #a0a0a0;
+}
+
+.adc-card-carousel .adc-carousel-card-type-logo .adc-carousel-card-media img {
+  object-fit: contain;
+}
+
+/* ============================================================
+   Arrow navigation buttons
+   — shown only on desktop (hidden on mobile via media query)
+   ============================================================ */
+.adc-card-carousel .adc-carousel-btn {
+  position: absolute;
+  top: calc(var(--adc-card-media-height) / 2);
+  transform: translateY(-50%);
+  z-index: 3;
+  width: var(--adc-carousel-arrow-size);
+  height: var(--adc-carousel-arrow-size);
+  border-radius: 50%;
+  border: none;
+  background: var(--adc-carousel-arrow-bg);
+  color: var(--adc-carousel-arrow-color);
+  font-size: 1.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.adc-card-carousel .adc-carousel-btn:hover {
+  background: #333;
+}
+
+.adc-card-carousel .adc-carousel-btn:focus-visible {
+  outline: 2px solid #003865;
+  outline-offset: 2px;
+}
+
+.adc-card-carousel .adc-carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.adc-card-carousel .adc-carousel-btn-prev {
+  left: -22px;
+}
+
+.adc-card-carousel .adc-carousel-btn-next {
+  right: -22px;
+}
+
+/* ============================================================
+   Pill-bar dot indicators — match AEM slick-dots style
+   ============================================================ */
+.adc-card-carousel .adc-carousel-dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+  padding: 1rem 0;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.adc-card-carousel .adc-carousel-dot {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 80px;
+  height: auto;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0;
+}
+
+.adc-card-carousel .adc-carousel-dot-indicator {
+  display: block;
+  width: 100%;
+  height: var(--adc-carousel-dot-height);
+  border-radius: var(--adc-carousel-dot-radius);
+  border: 1px solid var(--adc-carousel-dot-border);
+  background: var(--adc-carousel-dot-bg);
+  transition: background 0.2s;
+}
+
+.adc-card-carousel .adc-carousel-dot-active .adc-carousel-dot-indicator {
+  background: var(--adc-carousel-dot-active-bg);
+  border-color: var(--adc-carousel-dot-active-bg);
+}
+
+.adc-card-carousel .adc-carousel-dot:focus-visible .adc-carousel-dot-indicator {
+  outline: 2px solid #003865;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Desktop: narrow the dots bar to 60% — matches AEM slick-dots lg breakpoint */
+@media (width >= 1025px) {
+  .adc-card-carousel .adc-carousel-dots {
+    width: 60%;
+  }
+}
+
+/* Tablet: max 2 per screen, hide arrows, dot bars 4px tall */
+@media (width <= 1024px) {
+  .adc-card-carousel {
+    --adc-carousel-per-screen: 2;
+
+    padding: 0;
+  }
+
+  .adc-card-carousel .adc-carousel-btn {
+    display: none;
+  }
+
+  .adc-card-carousel .adc-carousel-dots {
+    width: 90%;
+  }
+
+  /* AEM: 4px dot height on screens below lg */
+
+  .adc-card-carousel .adc-carousel-dot-indicator {
+    height: 4px;
+  }
+}
+
+/* Mobile: 1 per screen, no arrows, full-width dots */
+@media (width <= 640px) {
+  .adc-card-carousel {
+    --adc-carousel-per-screen: 1;
+  }
+
+  .adc-card-carousel .adc-carousel-item {
+    padding: 0 0.5rem;
+  }
+
+  .adc-card-carousel .adc-carousel-dots {
+    width: 100%;
+    padding: 1rem 1.5rem;
+  }
+
+  .adc-card-carousel .adc-carousel-heading {
+    font-size: 1.375rem;
+  }
+
+  .adc-card-carousel .adc-carousel-card-type-patient-story .adc-carousel-card-media {
+    max-width: 278px;
+    margin: 0 auto;
+  }
+}

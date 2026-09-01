@@ -1,0 +1,49 @@
+{
+  "version": "v1",
+  "component": "cards",
+  "id": "cards-001",
+  "items": [
+    {
+      "id": "card-001",
+      "tag": "Sensor",
+      "title": "Card title one",
+      "description": "Card body content from AEM adapter endpoint.",
+      "image": {
+        "src": "/content/dam/adc/webu/card-1.jpg",
+        "alt": "Card image one"
+      },
+      "logo": {
+        "src": "/content/dam/adc/webu/logo-1.svg",
+        "alt": "Card logo one"
+      },
+      "link": {
+        "label": "Learn more",
+        "href": "/content/adc/us/en/products.html",
+        "newTab": false
+      }
+    },
+    {
+      "id": "card-002",
+      "tag": "Diagnostics",
+      "title": "Card title two",
+      "description": "Another card body content from AEM adapter endpoint.",
+      "image": {
+        "src": "/content/dam/adc/webu/card-2.jpg",
+        "alt": "Card image two"
+      },
+      "logo": {
+        "src": "/content/dam/adc/webu/logo-2.svg",
+        "alt": "Card logo two"
+      },
+      "link": {
+        "label": "Explore",
+        "href": "https://www.abbott.com",
+        "newTab": true
+      }
+    }
+  ],
+  "meta": {
+    "resourceType": "adc/webu/components/content/cards/v1/cards",
+    "locale": "en-us"
+  }
+}

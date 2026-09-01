@@ -1,0 +1,401 @@
+/* stylelint-disable selector-class-pattern, no-descending-specificity */
+
+/* ── card-composed: child-block authoring mode ──────────────────────────────
+   Children stay as direct block children (UE tracks them by data-aue-resource).
+   CSS grid handles the visual card layout instead of DOM restructuring.
+   ─────────────────────────────────────────────────────────────────────────── */
+.adc-card.card-composed {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--card-border-radius, 8px);
+  overflow: hidden;
+  background-color: var(--card-body-background, #fff);
+  border: 1px solid transparent;
+  box-shadow: var(--card-box-shadow, none);
+  height: 100%;
+}
+
+/* Image slot — full-width top media area */
+.adc-card.card-composed .card__slot-image {
+  width: 100%;
+  min-height: 135px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.adc-card.card-composed .card__slot-image .cmp-image,
+.adc-card.card-composed .card__slot-image .cmp-image--desktop {
+  height: 100%;
+}
+
+.adc-card.card-composed .card__slot-image .cmp-image__image,
+.adc-card.card-composed .card__slot-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Logo slot — absolute overlay on image top-left */
+.adc-card.card-composed .card__slot-logo {
+  position: absolute;
+  top: 0.31rem;
+  left: 0.31rem;
+  z-index: 2;
+}
+
+.adc-card.card-composed .card__slot-logo .cmp-image__image,
+.adc-card.card-composed .card__slot-logo img {
+  height: 2.62rem;
+  width: auto;
+  object-fit: contain;
+  object-position: left;
+  display: block;
+}
+
+/* Title slot */
+.adc-card.card-composed .card__slot-title {
+  padding: 16px 12px 4px;
+  font-weight: var(--card-title-font-weight, 700);
+  color: var(--card-title-color-dark, #000);
+  letter-spacing: 0.5px;
+}
+
+.adc-card.card-composed .card__slot-title .cmp-title__text,
+.adc-card.card-composed .card__slot-title h1,
+.adc-card.card-composed .card__slot-title h2,
+.adc-card.card-composed .card__slot-title h3,
+.adc-card.card-composed .card__slot-title h4 {
+  margin: 0;
+}
+
+/* Description / text slot */
+.adc-card.card-composed .card__slot-desc {
+  padding: 4px 12px;
+  flex: 1 1 auto;
+  color: var(--card-description-color-light, #222731);
+  overflow-wrap: anywhere;
+}
+
+/* Link / CTA slot */
+.adc-card.card-composed .card__slot-link {
+  padding: 8px 12px 16px;
+}
+
+.adc-card.card-composed .card__slot-link .cmp-link {
+  display: inline-flex;
+}
+
+/* Variant: information — small icon image, border */
+.adc-card.card-composed.information {
+  border: 1px solid var(--card-border-light, #d9d9d6);
+}
+
+.adc-card.card-composed.information .card__slot-image {
+  height: 64px;
+  min-height: unset;
+  margin: 1.5rem 1.5rem 0;
+}
+
+.adc-card.card-composed.information .card__slot-image img {
+  object-fit: contain;
+  width: auto;
+}
+
+/* Variant: support — border, horizontal layout */
+.adc-card.card-composed.support {
+  border: 1px solid var(--card-border-light, #d9d9d6);
+  flex-direction: row;
+  align-items: center;
+}
+
+.adc-card.card-composed.support .card__slot-image {
+  flex: 0 0 120px;
+  width: 120px;
+  height: 120px;
+  min-height: unset;
+  padding-top: 1rem;
+}
+
+.adc-card.card-composed.support .card__slot-image img {
+  object-fit: contain;
+}
+
+.adc-card.card-composed.support .card__slot-title,
+.adc-card.card-composed.support .card__slot-desc {
+  padding-left: 0.937rem;
+}
+
+/* Variant: patient-story — circular image */
+.adc-card.card-composed.patient-story .card__slot-image img {
+  border-radius: 50%;
+}
+
+/* Variant: clickable-card — rounded corners */
+.adc-card.card-composed.clickable-card {
+  border-radius: var(--card-clickable-border-radius, 20px);
+  cursor: pointer;
+}
+
+.adc-card.card-composed.clickable-card .card__slot-image {
+  border-radius: var(--card-clickable-media-border-radius, 15px 15px 0 0);
+}
+
+/* ── end card-composed ─────────────────────────────────────────────────────── */
+
+.adc-card .card {
+  position: relative;
+  width: 100%;
+}
+
+.adc-card .card::before {
+  content: ' ';
+  position: absolute;
+  inset: 0;
+  border: var(--card-border, 1px solid transparent);
+  border-radius: var(--card-border-radius, 8px);
+  box-shadow: var(--card-box-shadow, none);
+  z-index: 0;
+}
+
+.adc-card .card [data-js-component='card'] {
+  background-color: var(--card-body-background, #fff);
+}
+
+.adc-card .card__wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-self: flex-start;
+}
+
+.adc-card .card__media {
+  border-radius: var(--card-media-border-radius, 4px 4px 0 0);
+  overflow: hidden;
+  position: relative;
+  min-height: 135px;
+}
+
+.adc-card .card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 120px;
+  color: #6b6b6b;
+  background: #f7f7f9;
+  border: 1px dashed #c9c9c9;
+  font-size: 0.875rem;
+}
+
+.adc-card .card__placeholder--logo {
+  min-height: 42px;
+  min-width: 140px;
+  padding: 0.25rem 0.5rem;
+  background: #fff;
+}
+
+.adc-card .card__image,
+.adc-card .cmp-image__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.adc-card .card__body {
+  padding: var(--card-body-padding, 16px 12px);
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.adc-card .card__title {
+  color: var(--card-title-color-dark, #000);
+  font-weight: var(--card-title-font-weight, 700);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.adc-card .card__title .cmp-title__text {
+  margin: 0;
+}
+
+.adc-card .card__description {
+  color: var(--card-description-color-light, #222731);
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.adc-card .card__description > :last-child {
+  margin-bottom: 0;
+}
+
+.adc-card .card__body .link {
+  align-items: flex-end;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.adc-card .card__body .link a {
+  line-height: var(--card-link-line-height, 140%);
+}
+
+.adc-card .card--default {
+  border-radius: var(--card-border-radius, 8px);
+}
+
+.adc-card .card--information {
+  border-radius: 8px;
+  border: 1px solid var(--card-border-light, #d9d9d6);
+}
+
+.adc-card .card--information .card__media {
+  height: 64px;
+  margin: 1.5rem 1.5rem 0;
+}
+
+.adc-card .card--information .card__media .cmp-image__image {
+  width: auto;
+  object-fit: contain;
+}
+
+.adc-card .card--information .card__body {
+  padding: 1.5rem 1.5rem 0.5rem;
+}
+
+.adc-card .card--support .card__media .cmp-image__image {
+  height: 64px;
+  object-fit: contain;
+}
+
+.adc-card .card--default .card__media .cmp_image--logo {
+  position: absolute;
+  top: 0.31rem;
+  left: 0.31rem;
+}
+
+.adc-card .card--default .card__media .cmp_image--logo .cmp-image__image {
+  width: auto;
+  height: 2.62rem;
+  object-fit: contain;
+  object-position: left;
+}
+
+.adc-card .card--support {
+  border-radius: 8px;
+  border: 1px solid var(--card-border-light, #d9d9d6);
+}
+
+.adc-card .card--support .card__link,
+.adc-card .card--clickable-card .card__link {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}
+
+.adc-card .card--support .card__wrapper {
+  flex-direction: row;
+  padding-left: 0.937rem;
+}
+
+.adc-card .card--support .card__support-label--text {
+  position: absolute;
+  bottom: 0.6rem;
+  width: 100%;
+  text-align: center;
+  color: #000;
+  font-weight: var(--card-title-font-weight, 700);
+}
+
+.adc-card .card--support .card__media {
+  flex: 0 0 120px;
+  height: 120px;
+  padding-top: 1rem;
+}
+
+.adc-card .card--support .card__body {
+  padding-bottom: 1rem;
+}
+
+.adc-card .card--clickable-card {
+  border-radius: var(--card-clickable-border-radius, 20px);
+}
+
+.adc-card .card--clickable-card .card__media {
+  border-radius: var(--card-clickable-media-border-radius, 15px 15px 0 0);
+}
+
+.adc-card .card--clickable-card .card__body {
+  padding: var(--card-clickable-body-padding, 1rem 1.5rem 1.5rem);
+}
+
+.adc-card .card--patient-story {
+  height: auto;
+}
+
+.adc-card .card--patient-story .card__media {
+  height: auto;
+  padding-bottom: 100%;
+}
+
+.adc-card .card--patient-story .card__media .cmp-image__image {
+  border-radius: 50%;
+}
+
+.adc-card .card--patient-story .cmp_image--logo {
+  max-height: var(--card-patient-story-logo-height, 105px);
+}
+
+.adc-card .card--patient-story .cmp_image--logo .cmp-image__image {
+  position: relative;
+  height: var(--card-patient-story-logo-height, 105px);
+  width: auto;
+}
+
+.adc-card .card--patient-story .card__body {
+  padding: 0;
+  align-items: flex-start;
+}
+
+.adc-card .card--patient-story .card__title {
+  position: relative;
+  padding-top: 1.5rem;
+  font-size: var(--card-patient-story-title-font-size-sm, 1.375rem);
+  line-height: var(--card-info-title-line-height-sm, 130%);
+}
+
+.adc-card .card--patient-story .card__title::after {
+  content: '';
+  height: 4px;
+  width: 60px;
+  background-color: var(--cards-line-separator-yellow, #ffd100);
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  border-radius: 10px;
+}
+
+.adc-card .card--patient-story .link__wrapper {
+  margin-top: 2rem;
+}
+
+.adc-card .link__text,
+.adc-card .link__text:hover,
+.adc-card .link__text:focus,
+.adc-card .link__text:active {
+  text-decoration: underline;
+}
+
+.adc-card .abt-icon {
+  font-size: var(--link-icon-size, 1em);
+  position: relative;
+  top: 4px;
+}

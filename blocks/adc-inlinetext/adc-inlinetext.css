@@ -1,0 +1,200 @@
+/* ==========================================================================
+   ADC Inline Text Block
+   EDS equivalent of AEM inlinetext/v3 ("InLine Text - Description").
+
+   Dependency chain:
+     v3 --(sling:resourceSuperType)--> v1
+     v1 HTML: ${title.title @context='html'}  (raw RTE, no component wrapper)
+     Sling Model: TitleImpl.getTitle() reads JCR property ./title
+
+   AEM rendering engine auto-adds class="inlinetext" to the outer container.
+   This block mirrors that with .inlinetext as the inner wrapper class.
+
+   RTE capabilities (from v3 _cq_dialog toolbar):
+     Enabled:  bold (<strong>), italic (<em>), underline (<u>),
+               unordered list (<ul><li>), superscript (<sup>), links (<a>)
+     Disabled: paragraph formats (paraformat features="-"), so NO h1-h6,
+               text-align (justify features="-")
+     htmlRules: b->strong, i->em (semantic markup)
+     removeSingleParagraphContainer: true  => no <p> for single paragraph
+
+   RTE style classes (applied to <span> via styles picker, features="-"):
+     body-large, body-default, body-small, caption, color-text-gray,
+     upper-case, lower-case, capitalize, font-12, font-14,
+     disclaimer-text, check-green
+
+   All CSS custom properties below map to AEM's _typography.scss tokens.
+   Structure: .adc-inlinetext > .inlinetext > <RTE HTML>
+   ========================================================================== */
+
+/* Block wrapper */
+.adc-inlinetext {
+  margin-block: 1rem;
+}
+
+/* -------------------------------------------------------------------------
+ * .inlinetext — mirrors AEM auto-generated container class.
+ * Base text styles aligned to AEM: --body-font-size, --body-line-height.
+ * ------------------------------------------------------------------------- */
+.adc-inlinetext .inlinetext {
+  font-family: var(--body-font-family, "BrandonText", arial, sans-serif);
+  font-size: var(--body-font-size-m, 1rem);
+  line-height: var(--body-line-height, 1.6);
+  color: var(--text-color, #131313);
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+/* -------------------------------------------------------------------------
+ * Paragraph — v3 has removeSingleParagraphContainer=true so single
+ * paragraphs have no <p> wrap. Multi-paragraph content produces <p> tags.
+ * AEM title.scss: p { margin: 0 } inside .cmp-title__text
+ * product-detail.scss: .inlinetext p { margin-bottom: 10px }
+ * ------------------------------------------------------------------------- */
+.adc-inlinetext .inlinetext p {
+  margin: 0 0 10px;
+}
+
+.adc-inlinetext .inlinetext p:last-child {
+  margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Inline formatting — v3 toolbar has: bold, italic, underline
+ * htmlRules maps b->strong and i->em (semantic markup)
+ * ------------------------------------------------------------------------- */
+.adc-inlinetext .inlinetext strong {
+  font-weight: 700;
+}
+
+.adc-inlinetext .inlinetext em {
+  font-style: italic;
+}
+
+.adc-inlinetext .inlinetext u {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------
+ * Superscript — v3 toolbar has subsuperscript#superscript only.
+ * Aligned to AEM _global.scss: sup { font-size: --sup-font-size !important }
+ * and title.scss: h1/h2 sup uses --sup-font-size-head-title
+ * ------------------------------------------------------------------------- */
+.adc-inlinetext .inlinetext sup {
+  font-size: var(--sup-font-size, 65%);
+  top: var(--sup-font-position-head-title, -0.75em);
+  position: relative;
+  line-height: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Links — v3 toolbar has links#modifylink, links#unlink.
+ * Aligned to AEM _global.scss: a { color: $color-interactive-blue }
+ * AEM uses #0076CE (interactive blue) for links.
+ * ------------------------------------------------------------------------- */
+.adc-inlinetext .inlinetext a {
+  color: var(--link-color, #0076ce);
+  text-decoration: underline;
+  outline: none;
+}
+
+.adc-inlinetext .inlinetext a:hover,
+.adc-inlinetext .inlinetext a:focus {
+  color: var(--link-hover-color, #0076ce);
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------
+ * Unordered list — v3 toolbar has lists#unordered ONLY (no ordered list).
+ * Aligned to AEM title.scss: list-style-position inside, padding-left 1rem
+ * product-detail.scss: .inlinetext li { margin-bottom: 10px }
+ * ------------------------------------------------------------------------- */
+.adc-inlinetext .inlinetext ul {
+  list-style: disc;
+  list-style-position: inside;
+  padding-inline-start: 1rem;
+  margin-block: 0;
+}
+
+.adc-inlinetext .inlinetext li {
+  margin-bottom: 10px;
+}
+
+.adc-inlinetext .inlinetext li:last-child {
+  margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * RTE style classes — applied to <span> elements via the AEM RTE styles
+ * picker. Defined in v3 _cq_dialog rtePlugins > styles (features="-" means
+ * NOT shown in default toolbar, but still applied to authored content).
+ *
+ * Source: AEM _global.scss / _mixins.scss / _typography.scss
+ * ------------------------------------------------------------------------- */
+
+/* .body-large — AEM: @include body-large-style() — 24px/140% lh */
+.adc-inlinetext .inlinetext .body-large {
+  font-size: var(--body-large-font-size, 1.375rem); /* 22px mob / 24px desktop */
+  line-height: var(--body-large-line-height, 140%);
+  letter-spacing: var(--body-large-letter-spacing, 0);
+}
+
+/* .body-default — AEM: @include body-default-style() — 22px/140% lh */
+.adc-inlinetext .inlinetext .body-default {
+  font-size: var(--body-default-font-size, 1.25rem); /* 20px mob / 22px desktop */
+  line-height: var(--body-default-line-height, 140%);
+  letter-spacing: var(--body-default-letter-spacing, normal);
+}
+
+/* .body-small — AEM: @include body-small-style() — 20px/140% lh */
+.adc-inlinetext .inlinetext .body-small {
+  font-size: var(--body-small-font-size, 1.125rem); /* 18px mob / 20px desktop */
+  line-height: var(--body-small-line-height, 140%);
+  letter-spacing: var(--body-small-letter-spacing, normal);
+}
+
+/* .caption — AEM _global.scss: .caption { font-size: --caption-font-size; line-height: --caption-line-height } */
+.adc-inlinetext .inlinetext .caption {
+  font-size: var(--caption-font-size, 0.75rem); /* 12px */
+  line-height: var(--caption-line-height, 130%);
+  letter-spacing: var(--caption-letter-spacing, 0);
+}
+
+/* .color-text-gray — AEM _global.scss: .color-text-gray { color: var(--gray-darker-color) } */
+.adc-inlinetext .inlinetext .color-text-gray {
+  color: var(--gray-darker-color, #505050);
+}
+
+/* Text-transform helpers — AEM RTE style cssNames */
+.adc-inlinetext .inlinetext .upper-case {
+  text-transform: uppercase;
+}
+
+.adc-inlinetext .inlinetext .lower-case {
+  text-transform: lowercase;
+}
+
+.adc-inlinetext .inlinetext .capitalize {
+  text-transform: capitalize;
+}
+
+/* Font-size helpers — AEM RTE cssNames font-12, font-14 */
+.adc-inlinetext .inlinetext .font-12 {
+  font-size: 0.75rem; /* 12px */
+}
+
+.adc-inlinetext .inlinetext .font-14 {
+  font-size: 0.875rem; /* 14px */
+}
+
+/* .disclaimer-text — legal/disclaimer copy */
+.adc-inlinetext .inlinetext .disclaimer-text {
+  font-size: 0.75rem; /* 12px — aligns with AEM disclaimer styles */
+  line-height: 1.3;
+  color: var(--dark-color, #505050);
+}
+
+/* .check-green — green check mark indicator text */
+.adc-inlinetext .inlinetext .check-green {
+  color: #008000;
+}

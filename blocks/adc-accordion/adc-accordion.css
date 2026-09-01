@@ -1,0 +1,70 @@
+.adc-accordion {
+  width: 100%;
+  border-top: 1px solid #d8d8d8;
+}
+
+.adc-accordion .adc-accordion-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.adc-accordion .adc-accordion-controls button {
+  background: none;
+  border: none;
+  color: #006eb6;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.adc-accordion .adc-accordion-item {
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.adc-accordion .adc-accordion-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  gap: 1rem;
+}
+
+.adc-accordion .adc-accordion-button:hover {
+  color: #006eb6;
+}
+
+.adc-accordion .adc-accordion-icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #006eb6;
+}
+
+.adc-accordion .adc-accordion-panel {
+  padding: 0 0 1rem;
+  font-size: 0.9375rem;
+  color: #4a4a4a;
+  line-height: 1.6;
+}
+
+.adc-accordion .adc-accordion-panel[hidden] {
+  display: none;
+}
+
+@media (width <= 768px) {
+  .adc-accordion .adc-accordion-button {
+    font-size: 0.9375rem;
+  }
+}
+

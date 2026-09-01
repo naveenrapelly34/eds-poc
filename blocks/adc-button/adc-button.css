@@ -1,0 +1,136 @@
+/* ==========================================================================
+   ADC Button Block
+   Matches AEM Button component (button.scss) — translated to flat EDS CSS.
+   Structure: .adc-button > .button > a.btn.btn-{style}
+   ========================================================================== */
+
+/* CSS custom properties */
+.adc-button {
+  --btn-primary-bg: #001489;
+  --btn-primary-bg-pressed: #000e5e;
+  --btn-primary-color: #fff;
+  --btn-primary-alt-bg: #ffd100;
+  --btn-primary-alt-bg-pressed: #eeb33b;
+  --btn-primary-alt-color: #001489;
+  --btn-secondary-bg: #fff;
+  --btn-secondary-color: #001489;
+  --btn-secondary-border: 1px solid #001489;
+  --btn-font-size: 1rem;
+  --btn-font-weight: 600;
+  --btn-line-height: 1.25;
+  --btn-padding: 0.75rem 1rem;
+  --btn-border-radius: 8px;
+}
+
+/* Wrapper matches AEM .button component */
+.adc-button .button {
+  display: flex;
+  height: fit-content;
+}
+
+/* Base link/button element */
+.adc-button .btn {
+  color: var(--btn-primary-color);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: var(--btn-line-height);
+  padding: var(--btn-padding);
+  border-radius: var(--btn-border-radius);
+  border: 0;
+  text-transform: capitalize;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  width: fit-content;
+  background-color: var(--btn-primary-bg);
+  box-shadow: -5px 5px 14px 0 rgb(0 0 0 / 5%), 2px 2px 5px 0 rgb(0 0 0 / 10%);
+}
+
+.adc-button .btn:focus {
+  box-shadow: none;
+}
+
+.adc-button .btn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* Primary — dark blue (default) */
+.adc-button .btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  box-shadow: -5px 5px 14px 0 rgb(0 0 0 / 5%), 2px 2px 5px 0 rgb(0 0 0 / 10%);
+}
+
+.adc-button .btn-primary:hover {
+  background-color: var(--btn-primary-bg-pressed);
+  color: var(--btn-primary-color);
+  box-shadow: none;
+}
+
+.adc-button .btn-primary:active {
+  background-color: var(--btn-primary-bg);
+  box-shadow: none;
+}
+
+/* Primary Alt — yellow with blue text */
+.adc-button .btn-primary-alt {
+  background-color: var(--btn-primary-alt-bg);
+  color: var(--btn-primary-alt-color);
+  box-shadow: 0 0 0 1px #000;
+}
+
+.adc-button .btn-primary-alt:hover {
+  background-color: var(--btn-primary-alt-bg-pressed);
+  color: var(--btn-primary-alt-color);
+  box-shadow: none;
+}
+
+.adc-button .btn-primary-alt:active {
+  background-color: var(--btn-primary-alt-bg);
+  box-shadow: none;
+}
+
+/* Secondary — white with blue outline */
+.adc-button .btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-color);
+  border: var(--btn-secondary-border);
+  box-shadow: 0 0 0 1px #000;
+}
+
+.adc-button .btn-secondary:hover {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  box-shadow: none;
+}
+
+.adc-button .btn-secondary:active {
+  background-color: var(--btn-secondary-bg);
+  box-shadow: var(--btn-secondary-border);
+}
+
+/* Large size modifier */
+.adc-button.large .btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+/* Small size modifier */
+.adc-button.small .btn {
+  padding: 0.5625rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+/* Full-width modifier */
+.adc-button.full-width .button {
+  display: block;
+  width: 100%;
+}
+
+.adc-button.full-width .btn {
+  width: 100%;
+  text-align: center;
+}

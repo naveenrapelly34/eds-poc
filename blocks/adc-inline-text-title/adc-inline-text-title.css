@@ -1,0 +1,81 @@
+/* stylelint-disable selector-class-pattern */
+
+.adc-inline-text-title .title .cmp-title__text {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.adc-inline-text-title .title .cmp-title__text,
+.adc-inline-text-title .title .cmp-title__text h1,
+.adc-inline-text-title .title .cmp-title__text h2,
+.adc-inline-text-title .title .cmp-title__text h3,
+.adc-inline-text-title .title .cmp-title__text h4,
+.adc-inline-text-title .title .cmp-title__text h5,
+.adc-inline-text-title .title .cmp-title__text h6,
+.adc-inline-text-title .title .cmp-title__text p {
+  word-break: normal;
+  overflow-wrap: anywhere;
+  hyphens: manual;
+}
+
+.adc-inline-text-title .title .cmp-title__text p {
+  margin: 0;
+}
+
+.adc-inline-text-title .title .cmp-title__text sup,
+.adc-inline-text-title .title .cmp-title__text sub {
+  font-size: var(--sup-font-size-head-title, 0.6em) !important;
+  top: var(--sup-font-position-head-title, 0.2em) !important;
+}
+
+.adc-inline-text-title .title-divider .cmp-title__text::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--title-divider-bg-color-white, #fff);
+  border-radius: 1px;
+  margin: var(--global-spacing-24, 24px) 0;
+  position: absolute;
+}
+
+.adc-inline-text-title .title-divider .cmp-title__text {
+  padding-bottom: var(--global-spacing-24, 24px);
+}
+
+.adc-inline-text-title .title-divider--color-yellow .cmp-title__text::after {
+  background: var(--title-divider-bg-color-yellow, #ffd100);
+}
+
+.adc-inline-text-title .title-divider--color-white .cmp-title__text::after {
+  background: var(--title-divider-bg-color-white, #fff);
+}
+
+.adc-inline-text-title .title-divider--hide .cmp-title__text::after {
+  display: none;
+}
+
+.adc-inline-text-title .title__text-align--left {
+  text-align: left;
+}
+
+.adc-inline-text-title .title__text-align--left .cmp-title__text::after {
+  left: 0;
+}
+
+.adc-inline-text-title .title__text-align--right {
+  text-align: right;
+}
+
+.adc-inline-text-title .title__text-align--right .cmp-title__text::after {
+  right: 0;
+}
+
+.adc-inline-text-title .title__text-align--center {
+  text-align: center;
+}
+
+.adc-inline-text-title .title__text-align--center .cmp-title__text::after {
+  left: 50%;
+  transform: translateX(-50%);
+}

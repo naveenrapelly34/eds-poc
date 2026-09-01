@@ -1,0 +1,139 @@
+/* ─── Form Container ─────────────────────────────────────────────────────── */
+.adc-form .o-form-container {
+  width: 100%;
+}
+
+.adc-form .o-form-container-wrapper {
+  padding: 2rem;
+  background: var(--color-background, #fff);
+}
+
+.adc-form .o-form-container-outer {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ─── Field ──────────────────────────────────────────────────────────────── */
+.adc-form .a-input-field {
+  margin-bottom: 1.25rem;
+}
+
+.adc-form .a-input-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+  color: var(--color-text, #1d1d1d);
+}
+
+.adc-form .a-input-field-required {
+  color: #c00;
+  margin-left: 0.2rem;
+}
+
+.adc-form .a-input-control {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text, #1d1d1d);
+  background: #fff;
+  border: 1px solid #767676;
+  border-radius: 4px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.adc-form .a-input-control:focus {
+  outline: none;
+  border-color: var(--color-link, #0057b8);
+  box-shadow: 0 0 0 3px rgb(0 87 184 / 20%);
+}
+
+.adc-form .a-input-control[aria-invalid="true"] {
+  border-color: #c00;
+}
+
+.adc-form textarea.a-input-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ─── Error message ──────────────────────────────────────────────────────── */
+.adc-form .a-input-field-text-require {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  color: #c00;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.adc-form .o-form-container-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.adc-form .cmp-button {
+  padding: 0.625rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.adc-form .abt-btn-primary {
+  background: var(--color-link, #0057b8);
+  color: #fff;
+}
+
+.adc-form .abt-btn-primary:hover {
+  background: var(--color-link-hover, #004494);
+}
+
+.adc-form .abt-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Success / Error messages ───────────────────────────────────────────── */
+.adc-form .o-form-container-success-msg {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #edfbe4;
+  border: 1px solid #2e7d32;
+  border-radius: 4px;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.adc-form .o-form-container-error-msg {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fdecea;
+  border: 1px solid #c00;
+  border-radius: 4px;
+  color: #c00;
+  font-weight: 500;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (width <= 767px) {
+  .adc-form .o-form-container-wrapper {
+    padding: 1rem;
+  }
+
+  .adc-form .o-form-container-buttons {
+    flex-direction: column;
+  }
+
+  .adc-form .cmp-button {
+    width: 100%;
+    text-align: center;
+  }
+}

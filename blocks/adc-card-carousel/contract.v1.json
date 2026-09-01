@@ -1,0 +1,38 @@
+{
+  "version": "v1",
+  "component": "card-carousel",
+  "id": "card-carousel-001",
+  "cardsPerScreen": 3,
+  "items": [
+    {
+      "id": "slide-001",
+      "title": "Carousel card one",
+      "description": "Carousel content from AEM adapter endpoint.",
+      "image": {
+        "src": "/content/dam/adc/webu/carousel-1.jpg",
+        "alt": "Carousel card one"
+      },
+      "link": {
+        "label": "Read more",
+        "href": "/content/adc/us/en/stories.html"
+      }
+    },
+    {
+      "id": "slide-002",
+      "title": "Carousel card two",
+      "description": "More carousel content from AEM adapter endpoint.",
+      "image": {
+        "src": "/content/dam/adc/webu/carousel-2.jpg",
+        "alt": "Carousel card two"
+      },
+      "link": {
+        "label": "Read more",
+        "href": "/content/adc/us/en/stories-2.html"
+      }
+    }
+  ],
+  "meta": {
+    "resourceType": "adc/webu/components/content/cardcarousel/v1/cardcarousel",
+    "locale": "en-us"
+  }
+}

@@ -1,0 +1,88 @@
+.adc-card-item {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.adc-card-item .adc-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.adc-card-item .adc-card-media {
+  flex-shrink: 0;
+}
+
+.adc-card-item .adc-card-img img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.adc-card-item .adc-card-logo-img {
+  padding: 0.75rem 1.25rem 0;
+}
+
+.adc-card-item .adc-card-logo-img img {
+  max-height: 40px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.adc-card-item .adc-card-body {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.adc-card-item .adc-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.adc-card-item .adc-card-desc {
+  font-size: 0.9375rem;
+  color: #4a4a4a;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.adc-card-item .adc-card-actions {
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.adc-card-item .adc-card-action-primary {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #006eb6;
+  text-decoration: none;
+}
+
+.adc-card-item .adc-card-action-primary:hover {
+  text-decoration: underline;
+}
+
+.adc-card-item .adc-card-link-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.adc-card-item .adc-card-link-wrap:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 15%);
+}

@@ -14,8 +14,61 @@
       "title",
       "hero",
       "cards",
+      "fragment",
       "columns",
-      "fragment"
+      "hero-banner",
+      "adc-accordion",
+      "adc-tabs",
+      "adc-cta-banner",
+      "adc-card-carousel",
+      "adc-video-playlist",
+      "adc-cards",
+      "adc-card",
+      "adc-image",
+      "adc-inline-text-title",
+      "adc-link",
+      "adc-logo",
+      "adc-button"
+    ]
+  },
+  {
+    "id": "adc-accordion",
+    "components": [
+      "adc-accordion-item"
+    ]
+  },
+  {
+    "id": "adc-card-carousel",
+    "components": [
+      "adc-card-item"
+    ]
+  },
+  {
+    "id": "adc-card",
+    "components": [
+      "adc-image",
+      "adc-logo",
+      "adc-inline-text-title",
+      "adc-link",
+      "text"
+    ]
+  },
+  {
+    "id": "adc-cards",
+    "components": [
+      "adc-card-item"
+    ]
+  },
+  {
+    "id": "adc-tabs",
+    "components": [
+      "adc-tabs-item"
+    ]
+  },
+  {
+    "id": "adc-video-playlist",
+    "components": [
+      "adc-video-item"
     ]
   },
   {
