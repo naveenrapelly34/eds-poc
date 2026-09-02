@@ -245,6 +245,8 @@ function setupInteractions(block) {
   navItems.forEach((item) => {
     const link = item.querySelector('.adc-mega-menu-link');
     if (!link || !item.querySelector('.adc-mega-menu-panel')) return;
+    if (link.dataset.megaWired) return;
+    link.dataset.megaWired = 'true';
 
     link.addEventListener('click', (e) => {
       e.preventDefault();
