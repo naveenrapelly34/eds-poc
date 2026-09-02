@@ -279,8 +279,33 @@ export default async function decorate(block) {
   const fragment = document.createElement('div');
   fragment.innerHTML = html;
 
-  // Footer document children map to sections
-  const children = [...fragment.children];
+  // Footer document sections — classify each by its content so authors can
+  // order them however they like (link columns, logo/social, disclaimers,
+  // copyright). Falls back to authored order for anything ambiguous.
+  const sections = [...fragment.children];
+
+  const buckets = {
+    linkStacks: null, bottom: null, disclaimer: null, copyright: null,
+  };
+
+  sections.forEach((section) => {
+    const hasImage = !!section.querySelector('img');
+    const hasTitle = !!section.querySelector('strong, h2, h3, h4, h5, h6');
+    const links = section.querySelectorAll('a');
+    const isCopyright = /©|copyright/i.test(section.textContent);
+
+    if (hasImage && !buckets.bottom) {
+      buckets.bottom = section;
+    } else if (hasTitle && !buckets.linkStacks) {
+      buckets.linkStacks = section;
+    } else if (isCopyright && !buckets.copyright) {
+      buckets.copyright = section;
+    } else if (links.length > 0 && !buckets.disclaimer) {
+      buckets.disclaimer = section;
+    } else if (!buckets.copyright) {
+      buckets.copyright = section;
+    }
+  });
 
   const footerWrapper = document.createElement('footer');
   footerWrapper.className = 'footer-global';
@@ -292,9 +317,9 @@ export default async function decorate(block) {
   // Back to top
   block.prepend(buildBackToTop());
 
-  // Link stacks (first section of footer doc)
-  if (children[0]) {
-    container.append(buildLinkStacks(children[0]));
+  // Link stacks
+  if (buckets.linkStacks) {
+    container.append(buildLinkStacks(buckets.linkStacks));
   }
 
   // Horizontal divider
@@ -307,16 +332,16 @@ export default async function decorate(block) {
   const bottomContainer = document.createElement('div');
   bottomContainer.className = 'footer-bottom-container';
 
-  if (children[1]) {
-    bottomContainer.append(buildBottomSection(children[1]));
+  if (buckets.bottom) {
+    bottomContainer.append(buildBottomSection(buckets.bottom));
   }
 
-  if (children[2]) {
-    bottomContainer.append(buildDisclaimerLinks(children[2]));
+  if (buckets.disclaimer) {
+    bottomContainer.append(buildDisclaimerLinks(buckets.disclaimer));
   }
 
-  if (children[3]) {
-    bottomContainer.append(buildCopyright(children[3]));
+  if (buckets.copyright) {
+    bottomContainer.append(buildCopyright(buckets.copyright));
   }
 
   container.append(bottomContainer);
