@@ -17,6 +17,59 @@
  *     - Level 2: Sub-menu columns (each becomes a panel column header)
  *       - Level 3: Column links
  */
+
+/**
+ * Find the element whose direct children hold the authored nav markup
+ * (<p> headings and/or <ul> lists), skipping empty config fields such as
+ * the accessibility label.
+ */
+function findNavContentEl(block) {
+  const candidates = [...block.querySelectorAll('div')];
+  return candidates.find(
+    (div) => [...div.children].some((c) => c.tagName === 'UL' || c.tagName === 'P'),
+  ) || block;
+}
+
+/**
+ * Normalise authored content into a single nested <ul>.
+ * Supports two authoring patterns:
+ *   A) Heading <p>(optionally with <a>) followed by a child <ul>.
+ *      This is the easiest way to author - type a heading, then a bullet list.
+ *   B) A single fully-nested <ul><li>...<ul>...</ul></li></ul>.
+ */
+function normalizeToNestedList(content) {
+  if (!content) return null;
+  const nodes = [...content.children];
+  const topUls = nodes.filter((n) => n.tagName === 'UL');
+  const paras = nodes.filter((n) => n.tagName === 'P');
+
+  // Pattern B: already a single nested list, no heading paragraphs.
+  if (topUls.length === 1 && paras.length === 0) return topUls[0];
+
+  // Pattern A: build an <li> from each heading + its following <ul>.
+  const ul = document.createElement('ul');
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    if (node.tagName === 'P') {
+      const li = document.createElement('li');
+      const sourceAnchor = node.querySelector('a');
+      const anchor = document.createElement('a');
+      anchor.textContent = (sourceAnchor || node).textContent.trim();
+      const href = sourceAnchor?.getAttribute('href');
+      if (href) anchor.setAttribute('href', href);
+      li.append(anchor);
+      if (nodes[i + 1]?.tagName === 'UL') {
+        li.append(nodes[i + 1].cloneNode(true));
+        i += 1;
+      }
+      ul.append(li);
+    } else if (node.tagName === 'UL') {
+      node.querySelectorAll(':scope > li').forEach((li) => ul.append(li.cloneNode(true)));
+    }
+  }
+  return ul;
+}
+
 function buildDesktopNav(ul) {
   const nav = document.createElement('nav');
   nav.className = 'adc-mega-menu-nav';
@@ -57,40 +110,66 @@ function buildDesktopNav(ul) {
       const panelInner = document.createElement('div');
       panelInner.className = 'adc-mega-menu-panel-inner';
 
-      subList.querySelectorAll(':scope > li').forEach((subLi) => {
+      const subItems = [...subList.querySelectorAll(':scope > li')];
+      const hasColumns = subItems.some((subLi) => subLi.querySelector(':scope > ul'));
+
+      if (hasColumns) {
+        // 3-level content: each child is a titled column with its own links.
+        subItems.forEach((subLi) => {
+          const column = document.createElement('div');
+          column.className = 'adc-mega-menu-panel-column';
+
+          const subLink = subLi.querySelector(':scope > a');
+          const thirdLevel = subLi.querySelector(':scope > ul');
+
+          if (subLink) {
+            const colTitle = document.createElement('a');
+            colTitle.href = subLink.href;
+            colTitle.className = 'adc-mega-menu-panel-title';
+            colTitle.textContent = subLink.textContent;
+            column.append(colTitle);
+          }
+
+          if (thirdLevel) {
+            const colLinks = document.createElement('ul');
+            colLinks.className = 'adc-mega-menu-panel-links';
+
+            thirdLevel.querySelectorAll(':scope > li > a').forEach((thirdLink) => {
+              const colItem = document.createElement('li');
+              const colLink = document.createElement('a');
+              colLink.href = thirdLink.href;
+              colLink.className = 'adc-mega-menu-panel-link';
+              colLink.textContent = thirdLink.textContent;
+              colItem.append(colLink);
+              colLinks.append(colItem);
+            });
+
+            column.append(colLinks);
+          }
+
+          panelInner.append(column);
+        });
+      } else {
+        // 2-level content: children render as a vertical list of links.
         const column = document.createElement('div');
         column.className = 'adc-mega-menu-panel-column';
+        const colLinks = document.createElement('ul');
+        colLinks.className = 'adc-mega-menu-panel-links';
 
-        const subLink = subLi.querySelector(':scope > a');
-        const thirdLevel = subLi.querySelector(':scope > ul');
+        subItems.forEach((subLi) => {
+          const subLink = subLi.querySelector(':scope > a');
+          const colItem = document.createElement('li');
+          const colLink = document.createElement('a');
+          colLink.href = subLink ? subLink.href : '#';
+          colLink.className = 'adc-mega-menu-panel-link';
+          colLink.textContent = (subLink || subLi).textContent.trim();
+          colItem.append(colLink);
+          colLinks.append(colItem);
+        });
 
-        if (subLink) {
-          const colTitle = document.createElement('a');
-          colTitle.href = subLink.href;
-          colTitle.className = 'adc-mega-menu-panel-title';
-          colTitle.textContent = subLink.textContent;
-          column.append(colTitle);
-        }
-
-        if (thirdLevel) {
-          const colLinks = document.createElement('ul');
-          colLinks.className = 'adc-mega-menu-panel-links';
-
-          thirdLevel.querySelectorAll(':scope > li > a').forEach((thirdLink) => {
-            const colItem = document.createElement('li');
-            const colLink = document.createElement('a');
-            colLink.href = thirdLink.href;
-            colLink.className = 'adc-mega-menu-panel-link';
-            colLink.textContent = thirdLink.textContent;
-            colItem.append(colLink);
-            colLinks.append(colItem);
-          });
-
-          column.append(colLinks);
-        }
-
+        column.append(colLinks);
         panelInner.append(column);
-      });
+      }
 
       megaPanel.append(panelInner);
       primaryItem.append(megaPanel);
@@ -213,11 +292,9 @@ function setupInteractions(block) {
 }
 
 export default function decorate(block) {
-  const rows = [...block.children];
-  const navContent = rows[0];
-
-  const ul = navContent?.querySelector('ul');
-  if (!ul) return;
+  const navContent = findNavContentEl(block);
+  const ul = normalizeToNestedList(navContent);
+  if (!ul || !ul.querySelector('li')) return;
 
   const wrapper = document.createElement('div');
   wrapper.className = 'adc-mega-menu-wrapper';
