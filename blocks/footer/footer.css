@@ -80,7 +80,7 @@
   font-weight: var(--footer-link-title-font-weight, 700);
   font-size: var(--font-size-14, 0.875rem);
   text-transform: uppercase;
-  color: var(--footer-color, #fff);
+  color: var(--footer-link-title-color, #ffd100);
   text-decoration: none;
   display: inline;
   position: relative;

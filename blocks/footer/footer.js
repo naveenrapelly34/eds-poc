@@ -290,7 +290,6 @@ export default async function decorate(block) {
   container.className = 'footer-container';
 
   // Back to top
-  footerWrapper.before(buildBackToTop());
   block.prepend(buildBackToTop());
 
   // Link stacks (first section of footer doc)
