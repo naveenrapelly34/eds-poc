@@ -40,7 +40,6 @@
   margin-left: 2px;
   background: currentcolor;
   mask: url('/icons/external-link.svg') no-repeat center / contain;
-  -webkit-mask: url('/icons/external-link.svg') no-repeat center / contain;
 }
 
 @media (width < 992px) {

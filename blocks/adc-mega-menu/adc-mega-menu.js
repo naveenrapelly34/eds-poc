@@ -17,12 +17,6 @@
  *     - Level 2: Sub-menu columns (each becomes a panel column header)
  *       - Level 3: Column links
  */
-const MOBILE_BREAKPOINT = 992;
-
-function isDesktop() {
-  return window.innerWidth >= MOBILE_BREAKPOINT;
-}
-
 function buildDesktopNav(ul) {
   const nav = document.createElement('nav');
   nav.className = 'adc-mega-menu-nav';

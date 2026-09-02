@@ -98,7 +98,7 @@
 }
 
 /* Show only on desktop */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .adc-header-links {
     display: flex;
     align-items: center;

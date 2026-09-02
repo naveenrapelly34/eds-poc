@@ -9,12 +9,6 @@
  * - Back to top button
  */
 
-const MOBILE_BREAKPOINT = 992;
-
-function isDesktop() {
-  return window.innerWidth >= MOBILE_BREAKPOINT;
-}
-
 /**
  * Build link stack columns from footer document content.
  * Footer document structure:

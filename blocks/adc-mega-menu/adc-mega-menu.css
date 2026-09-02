@@ -198,7 +198,7 @@
 }
 
 /* ---- Desktop (992px+) ---- */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .adc-mega-menu-nav {
     display: flex;
   }

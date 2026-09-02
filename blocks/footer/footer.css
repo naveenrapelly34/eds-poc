@@ -252,10 +252,9 @@ a.footer-link-stack-title:hover::after {
 }
 
 /* ---- Desktop (992px+) ---- */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .footer-link-row {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     gap: var(--spacing-32, 2rem);
   }

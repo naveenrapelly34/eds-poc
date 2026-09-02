@@ -54,7 +54,7 @@
 }
 
 /* V1 header field: hideBottomUtilitySection — hides on desktop only */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .header-utility-bottom-hidden-desktop {
     display: none;
   }
@@ -181,7 +181,7 @@ body.header-mobile-menu-open {
 }
 
 /* ---- Desktop (992px+) ---- */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .header-hamburger {
     display: none;
   }

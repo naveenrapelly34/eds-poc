@@ -41,7 +41,7 @@
   width: auto;
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .adc-header-logo-brand-image {
     height: 40px;
   }
