@@ -1,0 +1,52 @@
+/* ADC Header Logo */
+.adc-header-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16, 1rem);
+}
+
+.adc-header-logo-brand {
+  display: flex;
+  align-items: center;
+}
+
+.adc-header-logo-brand-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.adc-header-logo-brand-image {
+  height: 32px;
+  width: auto;
+}
+
+/* Sticky/Abbott logo — hidden by default, shown in sticky state */
+.adc-header-logo-sticky {
+  display: none;
+  align-items: center;
+  margin-left: auto;
+}
+
+.header-sticky .adc-header-logo-sticky {
+  display: flex;
+}
+
+.adc-header-logo-sticky-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.adc-header-logo-sticky-image {
+  height: 28px;
+  width: auto;
+}
+
+@media (min-width: 992px) {
+  .adc-header-logo-brand-image {
+    height: 40px;
+  }
+
+  .adc-header-logo-sticky-image {
+    height: 32px;
+  }
+}

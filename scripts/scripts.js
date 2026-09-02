@@ -123,12 +123,25 @@ export function decorateMain(main) {
 }
 
 /**
+ * Loads the theme CSS based on page metadata.
+ * Authors set the "theme" metadata field (e.g. "theme1") in page properties.
+ */
+async function loadTheme() {
+  const theme = document.querySelector('meta[name="theme"]')?.content?.trim();
+  if (theme) {
+    document.body.classList.add(`theme-${theme}`);
+    await loadCSS(`${window.hlx.codeBasePath}/styles/themes/${theme}.css`);
+  }
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  await loadTheme();
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);

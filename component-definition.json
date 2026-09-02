@@ -416,6 +416,96 @@
               }
             }
           }
+        },
+        {
+          "title": "ADC Header Logo",
+          "id": "adc-header-logo",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "ADC Header Logo",
+                  "model": "adc-header-logo"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "ADC Mega Menu",
+          "id": "adc-mega-menu",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "ADC Mega Menu",
+                  "model": "adc-mega-menu"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "ADC Header Search",
+          "id": "adc-header-search",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "ADC Header Search",
+                  "model": "adc-header-search"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "ADC Header Link",
+          "id": "adc-header-link",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "ADC Header Link",
+                  "model": "adc-header-link"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "ADC Header Language",
+          "id": "adc-header-language",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "ADC Header Language",
+                  "model": "adc-header-language"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "ADC Header Links",
+          "id": "adc-header-links",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "ADC Header Links",
+                  "model": "adc-header-links"
+                }
+              }
+            }
+          }
         }
       ]
     }

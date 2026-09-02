@@ -28,7 +28,13 @@
       "adc-inline-text-title",
       "adc-link",
       "adc-logo",
-      "adc-button"
+      "adc-button",
+      "adc-header-logo",
+      "adc-mega-menu",
+      "adc-header-search",
+      "adc-header-link",
+      "adc-header-language",
+      "adc-header-links"
     ]
   },
   {

@@ -20,6 +20,22 @@
         "name": "keywords",
         "multi": true,
         "label": "Keywords"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "theme",
+        "label": "Theme",
+        "options": [
+          {
+            "name": "Theme 1 (Default)",
+            "value": "theme1"
+          },
+          {
+            "name": "Theme 2",
+            "value": "theme2"
+          }
+        ]
       }
     ]
   },
@@ -548,7 +564,7 @@
         "valueType": "string",
         "name": "title",
         "label": "Description",
-        "description": "Enter the inline text/description to display. Supports: bold, italic, underline, superscript, unordered list, and links. Paragraph format (heading levels) is intentionally disabled — this is an inline-text / description component.",
+        "description": "Enter the inline text/description to display. Supports: bold, italic, underline, superscript, unordered list, and links. Paragraph format (heading levels) is intentionally disabled \u2014 this is an inline-text / description component.",
         "value": ""
       }
     ]
@@ -1162,6 +1178,261 @@
             "value": "secondary"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "adc-header-logo",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "file",
+        "label": "Logo Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "logoAltText",
+        "label": "Logo Alt Text"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "link",
+        "label": "Logo Destination URL"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "action",
+        "label": "Link Action",
+        "options": [
+          { "name": "Same Window", "value": "_self" },
+          { "name": "New Window", "value": "_blank" },
+          { "name": "Parent Frame", "value": "_parent" },
+          { "name": "Top Frame", "value": "_top" }
+        ]
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "external",
+        "label": "External Link"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "stickyLogo",
+        "label": "Sticky/Abbott Logo Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stickyLogoAlt",
+        "label": "Sticky Logo Alt Text"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stickyLogoLink",
+        "label": "Sticky Logo Link URL"
+      }
+    ]
+  },
+  {
+    "id": "adc-mega-menu",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "accessibilityLabel",
+        "label": "Accessibility Label (aria-label)"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "navigation",
+        "label": "Navigation (nested list structure)"
+      }
+    ]
+  },
+  {
+    "id": "adc-header-search",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "searchType",
+        "label": "Search Type",
+        "options": [
+          { "name": "Global Search", "value": "global-search" },
+          { "name": "Coveo Search", "value": "coveo-search" }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "searchPlaceholder",
+        "label": "Search Placeholder Text"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "searchResultsPage",
+        "label": "Search Results Page URL"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "searchHub",
+        "label": "Search Hub (Coveo)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "redirectURL",
+        "label": "Coveo Redirect URL"
+      }
+    ]
+  },
+  {
+    "id": "adc-header-link",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "jcr:title",
+        "label": "Link Text"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "action",
+        "label": "Link Action",
+        "options": [
+          { "name": "New Window", "value": "_blank" },
+          { "name": "Same Window", "value": "_self" },
+          { "name": "Modal", "value": "modal" },
+          { "name": "Section Anchor", "value": "selfTag" }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "link",
+        "label": "Destination URL"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "external",
+        "label": "External Link"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "accessibilityLabel",
+        "label": "Accessibility Label (aria-label)"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "icon",
+        "label": "Icon Image",
+        "multi": false
+      }
+    ]
+  },
+  {
+    "id": "adc-header-language",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "navigatorType",
+        "label": "Navigator Type",
+        "options": [
+          { "name": "Default (Title | Language)", "value": "default" },
+          { "name": "Simple (Title Country-Lang)", "value": "simple" },
+          { "name": "Language (Title Language)", "value": "language" },
+          { "name": "Tabular (Flag | Country | Language)", "value": "tabular" }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "placeholder",
+        "label": "Search Placeholder Text"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "ascendingOrder",
+        "label": "Display in Ascending Order"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "hideLanguage",
+        "label": "Hide Language Key"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "hideCountry",
+        "label": "Hide Country Key"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "languages",
+        "label": "Language Options (list)"
+      }
+    ]
+  },
+  {
+    "id": "adc-header-links",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "linkStackType",
+        "label": "Link Stack Type",
+        "options": [
+          { "name": "Link Stack", "value": "linkstack" },
+          { "name": "Site Select", "value": "siteselect" }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stackTitle",
+        "label": "Stack Title"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stackLink",
+        "label": "Stack Title Link URL"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "action",
+        "label": "Link Action",
+        "options": [
+          { "name": "Same Window", "value": "_self" },
+          { "name": "New Window", "value": "_blank" }
+        ]
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "links",
+        "label": "Sub-Links (list)"
       }
     ]
   }

@@ -1,0 +1,106 @@
+/* ADC Header Links — V1 LinkStack dropdown */
+.adc-header-links {
+  display: none;
+}
+
+.adc-header-links-stack {
+  position: relative;
+}
+
+.adc-header-links-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-white, #fff);
+  font-size: var(--font-size-12, 0.75rem);
+  padding: 4px 0;
+  white-space: nowrap;
+}
+
+.adc-header-links-toggle:hover,
+.adc-header-links-toggle:focus-visible {
+  text-decoration: underline;
+}
+
+.adc-header-links-chevron {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.adc-header-links-toggle[aria-expanded="true"] .adc-header-links-chevron {
+  transform: rotate(-135deg);
+}
+
+.adc-header-links-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 180px;
+  background: var(--color-white, #fff);
+  border: 1px solid var(--color-gray-200, #e5e5e5);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  padding: 8px 0;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+}
+
+.adc-header-links-dropdown[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.adc-header-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.adc-header-links-item {
+  display: block;
+}
+
+.adc-header-links-link {
+  display: block;
+  padding: 6px 16px;
+  font-size: var(--font-size-xs, 0.75rem);
+  color: var(--color-text, #333);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.adc-header-links-link:hover {
+  background: var(--color-gray-100, #f5f5f5);
+  text-decoration: underline;
+}
+
+.adc-header-links-title-link {
+  color: var(--color-white, #fff);
+  font-size: var(--font-size-12, 0.75rem);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.adc-header-links-title-link:hover {
+  text-decoration: underline;
+}
+
+/* Show only on desktop */
+@media (min-width: 992px) {
+  .adc-header-links {
+    display: flex;
+    align-items: center;
+  }
+}

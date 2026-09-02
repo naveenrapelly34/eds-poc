@@ -1,0 +1,50 @@
+/* ADC Header Link — V1 single utility link styles */
+.adc-header-link-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.adc-header-link-anchor {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--font-size-xs, 12px);
+  line-height: 1.4;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.adc-header-link-anchor:hover,
+.adc-header-link-anchor:focus-visible {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.adc-header-link-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.adc-header-link-text {
+  font-size: inherit;
+}
+
+.adc-header-link-external::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 2px;
+  background: currentcolor;
+  mask: url('/icons/external-link.svg') no-repeat center / contain;
+  -webkit-mask: url('/icons/external-link.svg') no-repeat center / contain;
+}
+
+@media (width < 992px) {
+  .block.adc-header-link {
+    display: none;
+  }
+}
