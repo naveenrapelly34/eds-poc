@@ -12,27 +12,23 @@
  * - Accessibility label
  *
  * Nav doc structure:
- *   Row 1: link text | destination URL
- *   Row 2: action (_self|_blank|modal|selfTag) | external (true|false)
- *   Row 3: (optional) accessibility label | icon image
+ *   Fields are authored as a multi-value container and render as a flat list of
+ *   <p>/<a> elements separated by <hr>. Fields are classified by content:
+ *   link text | action (_self/_blank/modal/selfTag) | destination <a> |
+ *   external (true/false) | accessibility label | icon image.
  */
-export default function decorate(block) {
-  const rows = [...block.children];
+import { parseFieldGroups, classifyGroup } from '../../scripts/nav-fields.js';
 
-  // Row 0: text + link
-  const linkText = rows[0]?.children[0]?.textContent?.trim() || '';
-  const linkEl = rows[0]?.children[1]?.querySelector('a');
-  const href = linkEl?.href || rows[0]?.children[1]?.textContent?.trim() || '#';
+function buildLink(group) {
+  const {
+    link, href, image, action, flags, texts,
+  } = classifyGroup(group);
 
-  // Row 1: action + external flag
-  const action = rows[1]?.children[0]?.textContent?.trim()?.toLowerCase() || '_self';
-  const isExternal = rows[1]?.children[1]?.textContent?.trim()?.toLowerCase() === 'true';
-
-  // Row 2: accessibility label + icon
-  const ariaLabel = rows[2]?.children[0]?.textContent?.trim() || '';
-  const iconImg = rows[2]?.children[1]?.querySelector('img');
-
-  block.textContent = '';
+  const dest = href || link?.href || '#';
+  const act = action || '_self';
+  const isExternal = flags.some(Boolean);
+  const linkText = texts[0] || link?.textContent?.trim() || '';
+  const ariaLabel = texts[1] || '';
 
   const wrapper = document.createElement('div');
   wrapper.className = 'adc-header-link-wrapper';
@@ -40,13 +36,12 @@ export default function decorate(block) {
   const a = document.createElement('a');
   a.className = 'adc-header-link-anchor';
 
-  if (action === 'selftag') {
-    // Section anchor — scroll to ID
-    a.href = `#${href.replace('#', '')}`;
-  } else if (action !== 'modal') {
-    a.href = href;
-    a.target = action === '_blank' ? '_blank' : '_self';
-    if (action === '_blank' || isExternal) {
+  if (act === 'selftag') {
+    a.href = `#${dest.replace('#', '')}`;
+  } else if (act !== 'modal') {
+    a.href = dest;
+    a.target = act === '_blank' ? '_blank' : '_self';
+    if (act === '_blank' || isExternal) {
       a.rel = 'noopener noreferrer';
     }
   }
@@ -54,8 +49,8 @@ export default function decorate(block) {
   if (ariaLabel) a.setAttribute('aria-label', ariaLabel);
 
   // Icon (optional)
-  if (iconImg) {
-    const img = iconImg.cloneNode(true);
+  if (image) {
+    const img = image.cloneNode(true);
     img.className = 'adc-header-link-icon';
     a.append(img);
   }
@@ -75,5 +70,11 @@ export default function decorate(block) {
   }
 
   wrapper.append(a);
-  block.append(wrapper);
+  return wrapper;
+}
+
+export default function decorate(block) {
+  const groups = parseFieldGroups(block);
+  block.textContent = '';
+  groups.forEach((group) => block.append(buildLink(group)));
 }

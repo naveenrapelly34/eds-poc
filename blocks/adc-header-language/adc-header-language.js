@@ -7,25 +7,41 @@
  *                    hideLanguage, hideCountry, searchRequired, columnHeaderRequired
  *
  * Nav doc structure:
- *   Row 1: label text (e.g., "Select Country")
- *   Row 2+: language label | URL (one per row)
+ *   Fields render as a flat list separated by <hr>. A navigator label plus a
+ *   rich-text list of country/language links (each an anchor).
  */
+import { parseFieldGroups, classifyGroup } from '../../scripts/nav-fields.js';
+
 export default function decorate(block) {
-  const rows = [...block.children];
+  const groups = parseFieldGroups(block);
 
-  const label = rows[0]?.children[0]?.textContent?.trim() || 'Language';
-
-  // Parse language options
+  let label = 'Language';
   const languages = [];
-  for (let i = 1; i < rows.length; i += 1) {
-    const langLabel = rows[i]?.children[0]?.textContent?.trim();
-    const link = rows[i]?.children[1]?.querySelector('a');
-    const href = link?.href || rows[i]?.children[1]?.textContent?.trim();
-    if (langLabel && href) {
-      const isCurrent = rows[i]?.children[0]?.querySelector('strong') !== null;
-      languages.push({ label: langLabel, href, isCurrent });
+
+  groups.forEach((group) => {
+    const info = classifyGroup(group);
+    // A rich-text list of language links
+    if (info.list) {
+      info.list.querySelectorAll('a').forEach((anchor) => {
+        languages.push({
+          label: anchor.textContent.trim(),
+          href: anchor.getAttribute('href') || anchor.href || '#',
+          isCurrent: anchor.querySelector('strong') !== null,
+        });
+      });
     }
-  }
+    // A single language link
+    if (info.link) {
+      languages.push({
+        label: info.texts[0] || info.link.textContent.trim(),
+        href: info.href,
+        isCurrent: false,
+      });
+    } else if (info.texts.length && label === 'Language') {
+      // First plain-text field is the navigator label
+      [label] = info.texts;
+    }
+  });
 
   block.textContent = '';
 

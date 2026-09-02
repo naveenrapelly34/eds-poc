@@ -7,28 +7,33 @@
  *                    action, stackExternal, links[] (multifield: text, link, action, external)
  *
  * Nav doc structure:
- *   Row 1: stack title | stack link URL
- *   Row 2+: link label | URL (one per row)
+ *   Fields render as a flat list separated by <hr>. First group holds the stack
+ *   title + title link + action; a later group holds the sub-links (a list).
  */
+import { parseFieldGroups, classifyGroup } from '../../scripts/nav-fields.js';
+
 export default function decorate(block) {
-  const rows = [...block.children];
-  if (!rows.length) return;
+  const groups = parseFieldGroups(block);
+  if (!groups.length) return;
 
-  // Row 0: stack title | stack link URL
-  const stackTitle = rows[0]?.children[0]?.textContent?.trim() || '';
-  const stackLinkEl = rows[0]?.children[1]?.querySelector('a');
-  const stackHref = stackLinkEl?.href || rows[0]?.children[1]?.textContent?.trim() || '';
+  // First group: stack title + title link
+  const head = classifyGroup(groups[0]);
+  const stackTitle = head.texts[0] || head.link?.textContent?.trim() || '';
+  const stackHref = head.href || '';
 
-  // Sub-links (rows 1+)
+  // Sub-links: any anchors found in later groups (the rich-text "links" field)
   const subLinks = [];
-  for (let i = 1; i < rows.length; i += 1) {
-    const text = rows[i]?.children[0]?.textContent?.trim();
-    const linkEl = rows[i]?.children[1]?.querySelector('a');
-    const href = linkEl?.href || rows[i]?.children[1]?.textContent?.trim();
-    if (text && href) {
-      subLinks.push({ text, href, target: linkEl?.target || '_self' });
-    }
-  }
+  groups.slice(1).forEach((group) => {
+    group.forEach((el) => {
+      el.querySelectorAll('a').forEach((anchor) => {
+        subLinks.push({
+          text: anchor.textContent.trim(),
+          href: anchor.getAttribute('href') || anchor.href || '#',
+          target: anchor.target || '_self',
+        });
+      });
+    });
+  });
 
   block.textContent = '';
 

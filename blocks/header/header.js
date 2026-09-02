@@ -42,20 +42,6 @@ function isDesktop() {
 }
 
 /**
- * Find a decorated child block in the fetched nav content.
- */
-function findBlock(fragment, blockName) {
-  return fragment.querySelector(`.${blockName}`);
-}
-
-/**
- * Find all instances of a block type.
- */
-function findBlocks(fragment, blockName) {
-  return [...fragment.querySelectorAll(`.${blockName}`)];
-}
-
-/**
  * Fallback: build brand logo from default content (no child block).
  */
 function buildFallbackBrandLogo(content) {
@@ -416,7 +402,7 @@ function isMetaTrue(name) {
     ?.content?.trim()?.toLowerCase() === 'true';
 }
 
-function buildMainSection(fragment, children) {
+function buildMainSection(section) {
   const mainSection = document.createElement('div');
   mainSection.className = 'header-main';
 
@@ -425,30 +411,43 @@ function buildMainSection(fragment, children) {
 
   mainContainer.append(buildHamburger());
 
-  const logoBlock = findBlock(fragment, 'adc-header-logo');
-  if (logoBlock) {
-    mainContainer.append(logoBlock);
-  } else if (children[0]) {
-    mainContainer.append(buildFallbackBrandLogo(children[0]));
+  if (!section) {
+    mainSection.append(mainContainer);
+    return mainSection;
+  }
+
+  // Only look at blocks that live in THIS section (Section 1 / dark bar)
+  const logos = [...section.querySelectorAll('.adc-header-logo')];
+  const linkStacks = [...section.querySelectorAll('.adc-header-links')];
+  const links = [...section.querySelectorAll('.adc-header-link')];
+  const langs = [...section.querySelectorAll('.adc-header-language')];
+
+  // First logo = brand logo (left)
+  if (logos[0]) {
+    mainContainer.append(logos[0]);
+  } else {
+    mainContainer.append(buildFallbackBrandLogo(section));
   }
 
   const mainRight = document.createElement('div');
   mainRight.className = 'header-main-right';
 
-  const linksBlock = findBlock(fragment, 'adc-header-links');
-  if (linksBlock) mainRight.append(linksBlock);
+  linkStacks.forEach((b) => mainRight.append(b));
+  links.forEach((b) => mainRight.append(b));
+  langs.forEach((b) => mainRight.append(b));
 
-  findBlocks(fragment, 'adc-header-link').forEach((linkBlock) => mainRight.append(linkBlock));
-
-  const langBlock = findBlock(fragment, 'adc-header-language');
-  if (langBlock) mainRight.append(langBlock);
+  // Any additional logos (e.g. Abbott logo) render on the right
+  logos.slice(1).forEach((b) => {
+    b.classList.add('adc-header-logo-secondary');
+    mainRight.append(b);
+  });
 
   mainContainer.append(mainRight);
   mainSection.append(mainContainer);
   return mainSection;
 }
 
-function buildUtilitySection(fragment, children, hideBottomUtility, removeSearch) {
+function buildUtilitySection(section, hideBottomUtility, removeSearch) {
   const utilityBottom = document.createElement('div');
   utilityBottom.className = 'header-utility-bottom';
   if (hideBottomUtility) utilityBottom.classList.add('header-utility-bottom-hidden-desktop');
@@ -456,35 +455,34 @@ function buildUtilitySection(fragment, children, hideBottomUtility, removeSearch
   const utilContainer = document.createElement('div');
   utilContainer.className = 'header-container';
 
-  const megaMenuBlock = findBlock(fragment, 'adc-mega-menu');
+  const megaMenuBlock = section?.querySelector('.adc-mega-menu');
   if (megaMenuBlock) {
     utilContainer.append(megaMenuBlock);
-  } else if (children[1]) {
-    const fallbackNav = buildFallbackMegaNav(children[1]);
+  } else if (section) {
+    const fallbackNav = buildFallbackMegaNav(section);
     if (fallbackNav) utilContainer.append(fallbackNav);
+  }
+
+  // Main-nav link stacks belong in the utility (white) bar
+  if (section) {
+    section.querySelectorAll('.adc-header-links').forEach((b) => utilContainer.append(b));
   }
 
   const toolsSection = document.createElement('div');
   toolsSection.className = 'header-tools';
 
-  const searchBlock = findBlock(fragment, 'adc-header-search');
+  // CTA / utility links authored in Section 2
+  if (section) {
+    section.querySelectorAll('.adc-header-link').forEach((b) => toolsSection.append(b));
+  }
+
+  const searchBlock = section?.querySelector('.adc-header-search');
   if (!removeSearch) {
     if (searchBlock) {
       toolsSection.append(searchBlock);
     } else {
       toolsSection.append(buildFallbackSearch());
     }
-  }
-
-  if (!searchBlock && !removeSearch && children[2]) {
-    children[2].querySelectorAll('a').forEach((link) => {
-      const cta = document.createElement('a');
-      cta.href = link.href;
-      cta.className = 'header-cta';
-      cta.textContent = link.textContent;
-      if (link.closest('strong')) cta.classList.add('header-cta-primary');
-      toolsSection.append(cta);
-    });
   }
 
   utilContainer.append(toolsSection);
@@ -529,8 +527,8 @@ export default async function decorate(block) {
   // Skip navigation (accessibility)
   headerWrapper.append(buildSkipNav());
 
-  headerWrapper.append(buildMainSection(fragment, children));
-  headerWrapper.append(buildUtilitySection(fragment, children, hideBottomUtility, removeSearch));
+  headerWrapper.append(buildMainSection(children[0]));
+  headerWrapper.append(buildUtilitySection(children[1], hideBottomUtility, removeSearch));
 
   // Clear and compose
   block.textContent = '';
