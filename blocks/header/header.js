@@ -23,7 +23,19 @@
  * for backward compatibility with simple nav documents.
  */
 
+import { decorateBlock, loadBlock } from '../../scripts/aem.js';
+
 const MOBILE_BREAKPOINT = 992;
+
+/* Child blocks that carry their own decorate() + CSS. */
+const CHILD_BLOCK_SELECTOR = [
+  '.adc-header-logo',
+  '.adc-header-link',
+  '.adc-header-links',
+  '.adc-header-language',
+  '.adc-mega-menu',
+  '.adc-header-search',
+].join(', ');
 
 function isDesktop() {
   return window.innerWidth >= MOBILE_BREAKPOINT;
@@ -492,6 +504,16 @@ export default async function decorate(block) {
   const html = await resp.text();
   const fragment = document.createElement('div');
   fragment.innerHTML = html;
+
+  // Run each authored child block's own decorate() + load its CSS, while the
+  // block still holds its raw authored rows. Without this, the raw field values
+  // (language codes, search labels, target flags) leak onto the page as text.
+  await Promise.all(
+    [...fragment.querySelectorAll(CHILD_BLOCK_SELECTOR)].map((childBlock) => {
+      decorateBlock(childBlock);
+      return loadBlock(childBlock);
+    }),
+  );
 
   // Nav document children (sections)
   const children = [...fragment.children];
