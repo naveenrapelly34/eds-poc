@@ -55,7 +55,6 @@
 /* ---- Utility Bottom Section (nav bar) ---- */
 .header-utility-bottom {
   background-color: var(--header-utility-bottom-bg, #fff);
-  box-shadow: var(--header-box-shadow, 0 2px 4px 0 rgb(0 0 0 / 10%));
   position: relative;
 }
 
