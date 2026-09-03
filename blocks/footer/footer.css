@@ -80,10 +80,15 @@
   font-weight: var(--footer-link-title-font-weight, 700);
   font-size: var(--footer-link-title-font-size, 0.75rem);
   text-transform: uppercase;
-  color: var(--footer-link-title-color, var(--footer-color, #fff));
   text-decoration: none;
   display: inline;
   position: relative;
+}
+
+/* Scoped under .footer-global to beat the global `a:any-link` color rule */
+.footer-global .footer-link-stack-title,
+.footer-global a.footer-link-stack-title:hover {
+  color: var(--footer-link-title-color, var(--footer-color, #fff));
 }
 
 a.footer-link-stack-title:hover::after {
@@ -134,7 +139,7 @@ a.footer-link-stack-title:hover::after {
   margin-bottom: var(--footer-link-wrapper-margin-bottom, 1rem);
 }
 
-.footer-link-text {
+.footer-global .footer-link-text {
   font-size: var(--footer-link-text-font-size, 0.75rem);
   color: var(--footer-link-text-color, #fff);
   line-height: var(--footer-link-stack-text-line-height, 110%);
@@ -142,7 +147,8 @@ a.footer-link-stack-title:hover::after {
   font-weight: var(--footer-link-font-weight, 400);
 }
 
-.footer-link-text:hover {
+.footer-global .footer-link-text:hover {
+  color: var(--footer-link-text-color, #fff);
   text-decoration: underline;
 }
 
@@ -198,7 +204,7 @@ a.footer-link-stack-title:hover::after {
   gap: var(--spacing-8, 0.5rem);
 }
 
-.footer-social-link {
+.footer-global .footer-social-link {
   display: inline-flex;
   color: var(--footer-link-text-color, #fff);
   text-decoration: none;
@@ -230,7 +236,7 @@ a.footer-link-stack-title:hover::after {
   margin-bottom: var(--spacing-4, 0.25rem);
 }
 
-.footer-disclaimer-link {
+.footer-global .footer-disclaimer-link {
   font-size: var(--footer-link-text-font-size, 0.75rem);
   line-height: var(--footer-link-text-line-height, 130%);
   color: var(--footer-link-text-color, #fff);
@@ -239,7 +245,8 @@ a.footer-link-stack-title:hover::after {
   font-weight: var(--footer-link-font-weight, 400);
 }
 
-.footer-disclaimer-link:hover {
+.footer-global .footer-disclaimer-link:hover {
+  color: var(--footer-link-text-color, #fff);
   text-decoration: underline;
 }
 
