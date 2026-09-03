@@ -38,6 +38,13 @@
   padding: var(--header-main-padding, 0.938rem 0 1rem 0);
 }
 
+/* Top-bar links (e.g. Important Safety Information) are white on the dark bar */
+.header-main .adc-header-link-anchor,
+.header-main .adc-header-link-anchor:hover,
+.header-main .adc-header-link-anchor:focus-visible {
+  color: var(--color-white, #fff);
+}
+
 .header-main-right {
   display: flex;
   align-items: center;
@@ -48,9 +55,15 @@
 /* ---- Utility Bottom Section (nav bar) ---- */
 .header-utility-bottom {
   background-color: var(--header-utility-bottom-bg, #fff);
-  border-bottom: 1px solid var(--color-light-gray, #d9d9d6);
   box-shadow: var(--header-box-shadow, 0 2px 4px 0 rgb(0 0 0 / 10%));
   position: relative;
+}
+
+/* Mega-menu nav links are dark on the white nav bar (AEM design) */
+.header-utility-bottom .adc-mega-menu-link,
+.header-utility-bottom .adc-mega-menu-link:hover,
+.header-utility-bottom .adc-mega-menu-link[aria-expanded="true"] {
+  color: var(--header-mega-menu-link-color, #222731);
 }
 
 /* V1 header field: hideBottomUtilitySection — hides on desktop only */
