@@ -78,9 +78,9 @@
 .footer-link-stack-title {
   margin: 0;
   font-weight: var(--footer-link-title-font-weight, 700);
-  font-size: var(--font-size-14, 0.875rem);
+  font-size: var(--footer-link-title-font-size, 0.75rem);
   text-transform: uppercase;
-  color: var(--footer-link-title-color, #ffd100);
+  color: var(--footer-link-title-color, var(--footer-color, #fff));
   text-decoration: none;
   display: inline;
   position: relative;
