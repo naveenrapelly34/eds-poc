@@ -1,0 +1,111 @@
+/*
+ * ADC WebU Theme 2 — "Ocean" Design Tokens
+ * Same token structure as theme1, different palette so authors can
+ * switch themes from page properties and see the site recolor.
+ */
+
+:root {
+  /* ========================
+     Base Colors (Ocean palette)
+     ======================== */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-charcoal: #0a1f44; /* deep navy — header/footer chrome */
+  --color-yellow: #00b0b9; /* teal accent (hover/active) */
+  --color-blue: #0057b8;
+  --color-medium-gray: #7a8a99;
+  --color-light-gray: #cdd7e0;
+  --color-violet-breeze: #d5eef0;
+  --color-athens-gray: #f2f6f9;
+  --color-oxford-blue: #00b0b9;
+  --color-danger: #e4002b;
+  --color-success: #52be08;
+
+  /* ========================
+     Spacing
+     ======================== */
+  --spacing-4: 0.25rem;
+  --spacing-8: 0.5rem;
+  --spacing-12: 0.75rem;
+  --spacing-15: 0.938rem;
+  --spacing-16: 1rem;
+  --spacing-20: 1.25rem;
+  --spacing-24: 1.5rem;
+  --spacing-32: 2rem;
+  --spacing-40: 2.5rem;
+  --spacing-48: 3rem;
+
+  /* ========================
+     Typography
+     ======================== */
+  --font-family-base: "BrandonText", Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-12: 0.75rem;
+  --font-size-14: 0.875rem;
+  --font-size-16: 1rem;
+  --font-size-18: 1.125rem;
+  --font-size-20: 1.25rem;
+  --font-size-24: 1.5rem;
+  --font-size-32: 2rem;
+  --font-weight-400: 400;
+  --font-weight-700: 700;
+  --line-height-110: 110%;
+  --line-height-130: 130%;
+  --line-height-150: 150%;
+
+  /* ========================
+     Border
+     ======================== */
+  --border-radius: 0.25rem;
+}
+
+/* ============================
+   Header Theme Variables
+   ============================ */
+.header-global {
+  --header-font-size: var(--font-size-base);
+  --header-line-height: 1.25rem;
+  --header-color: var(--color-charcoal);
+  --header-icon-font-size: var(--font-size-base);
+  --header-icon-spacing: 0.5rem;
+  --header-box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+  --header-component-spacing: 3rem;
+  --header-main-bg: var(--color-charcoal);
+  --header-main-padding: var(--spacing-15) 0 var(--spacing-16) 0;
+  --header-main-text-color: var(--color-white);
+  --header-utility-bottom-bg: var(--color-white);
+  --header-utility-bottom-padding: 0.281rem var(--spacing-24) 0.281rem var(--spacing-16);
+  --header-utility-bottom-height: 2.75rem;
+  --header-search-color: var(--color-charcoal);
+  --header-search-color-open: var(--color-medium-gray);
+  --header-mega-menu-active-border: var(--color-yellow);
+  --header-mega-menu-active-bg: var(--color-violet-breeze);
+  --header-mega-menu-link-color: var(--color-charcoal);
+  --header-mega-menu-link-hover-color: var(--color-oxford-blue);
+  --header-mega-menu-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+  --header-mobile-menu-bg: var(--color-white);
+  --header-mobile-menu-border: var(--color-light-gray);
+}
+
+/* ============================
+   Footer Theme Variables
+   ============================ */
+.footer-global {
+  --footer-padding: var(--spacing-40) 0;
+  --footer-color: var(--color-white);
+  --footer-bg-color: var(--color-charcoal);
+  --footer-link-wrapper-padding-bottom: var(--spacing-20);
+  --footer-link-wrapper-margin-bottom: var(--spacing-16);
+  --footer-bottom-section-padding: var(--spacing-32) 0 0;
+  --footer-link-stack-text-line-height: var(--line-height-110);
+  --footer-link-text-font-size: var(--font-size-12);
+  --footer-link-text-line-height: var(--line-height-130);
+  --footer-link-text-color: var(--color-white);
+  --footer-link-title-hover-border: var(--color-yellow);
+  --footer-link-title-font-weight: var(--font-weight-700);
+  --footer-icon-color: var(--color-white);
+  --footer-horizontal-divider: var(--color-light-gray);
+  --footer-copyright-font-size: var(--font-size-12);
+  --footer-copyright-line-height: var(--line-height-130);
+  --footer-link-font-weight: var(--font-weight-400);
+}
