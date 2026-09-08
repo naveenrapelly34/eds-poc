@@ -123,36 +123,19 @@ export function decorateMain(main) {
 }
 
 /**
- * Country/section theme inheritance.
+ * Loads the theme CSS based on page metadata.
  *
- * EDS has no page-property inheritance like AEM, so map a URL path prefix
- * to a theme here. Every page under a prefix uses that theme automatically,
- * unless the page sets its own `theme` metadata in page properties (which
- * always wins). Adjust the prefixes to match your published URLs.
- */
-const PATH_THEMES = [
-  { prefix: '/keenpanther20891', theme: 'theme2' },
-];
-const DEFAULT_THEME = 'theme1';
-
-/**
- * Loads the theme CSS based on page metadata, falling back to the country/
- * section derived from the URL path (see PATH_THEMES).
- * Authors set the "theme" metadata field (e.g. "theme1") in page properties.
+ * The theme is fully author-driven — no themes are hardcoded here:
+ *  - Per page: authors set the "theme" field in page properties.
+ *  - Per section/country: set `theme` in the Metadata sheet by URL glob
+ *    (e.g. /keenpanther20891/** -> theme2), which Helix injects as a
+ *    <meta name="theme"> tag on every matching page.
+ * Falls back to "theme1" when no theme metadata is present.
  */
 async function loadTheme() {
-  let theme = document.querySelector('meta[name="theme"]')?.content?.trim();
-  if (!theme) {
-    const { pathname } = window.location;
-    const match = PATH_THEMES.find(
-      ({ prefix }) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-    );
-    theme = match ? match.theme : DEFAULT_THEME;
-  }
-  if (theme) {
-    document.body.classList.add(`theme-${theme}`);
-    await loadCSS(`${window.hlx.codeBasePath}/styles/themes/${theme}.css`);
-  }
+  const theme = document.querySelector('meta[name="theme"]')?.content?.trim() || 'theme1';
+  document.body.classList.add(`theme-${theme}`);
+  await loadCSS(`${window.hlx.codeBasePath}/styles/themes/${theme}.css`);
 }
 
 /**
