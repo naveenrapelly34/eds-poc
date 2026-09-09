@@ -20,6 +20,8 @@
  *   backend.
  */
 
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
 // Serverless proxy endpoint (set via the block attribute `data-endpoint`).
 const ENDPOINT_ATTR = 'data-endpoint';
 const RECAPTCHA_SITE_KEY_ATTR = 'data-recaptcha-site-key';
@@ -368,19 +370,23 @@ function buildForm(config, fields) {
 
   fields.forEach((field, i) => {
     const id = `adc-form-field-${i}`;
+    let el;
     if (field.type === 'hidden') {
-      form.append(buildHiddenInput(field.name, field.value || ''));
-      return;
+      el = buildHiddenInput(field.name, field.value || '');
+      form.append(el);
+    } else if (field.type === 'select') {
+      el = buildSelectField({ ...field, id });
+      fieldContainer.append(el);
+    } else if (field.type === 'checkbox' || field.type === 'radio') {
+      el = buildChoiceField({ ...field, id });
+      fieldContainer.append(el);
+    } else {
+      el = buildInputField({ ...field, id });
+      fieldContainer.append(el);
     }
-    if (field.type === 'select') {
-      fieldContainer.append(buildSelectField({ ...field, id }));
-      return;
-    }
-    if (field.type === 'checkbox' || field.type === 'radio') {
-      fieldContainer.append(buildChoiceField({ ...field, id }));
-      return;
-    }
-    fieldContainer.append(buildInputField({ ...field, id }));
+    // Preserve Universal Editor instrumentation so authored field items stay
+    // selectable/re-orderable and the container's "+" add-child affordance works.
+    if (field.sourceRow && el) moveInstrumentation(field.sourceRow, el);
   });
 
   form.append(fieldContainer);
@@ -581,7 +587,12 @@ export default function decorate(block) {
 
     if (FIELD_TYPES.has(firstLc) && cells.length >= 2) {
       const field = parseFieldRow(cells);
-      if (field.name) fields.push(field);
+      // Keep named fields (production) and any UE-instrumented item row (even if
+      // not yet named) so a just-added field persists in the editor.
+      if (field.name || row.hasAttribute('data-aue-resource')) {
+        field.sourceRow = row;
+        fields.push(field);
+      }
     } else if (cells.length >= 2 && CONFIG_KEY_MAP.has(firstLc)) {
       // DA key-value config row.
       assignConfig(CONFIG_KEY_MAP.get(firstLc), cells[cells.length - 1].textContent);
