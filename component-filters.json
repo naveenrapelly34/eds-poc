@@ -20,6 +20,7 @@
       "adc-accordion",
       "adc-tabs",
       "adc-cta-banner",
+      "adc-form",
       "adc-card-carousel",
       "adc-video-playlist",
       "adc-cards",
@@ -41,6 +42,12 @@
     "id": "adc-accordion",
     "components": [
       "adc-accordion-item"
+    ]
+  },
+  {
+    "id": "adc-form",
+    "components": [
+      "adc-form-field"
     ]
   },
   {

@@ -193,6 +193,151 @@
     ]
   },
   {
+    "id": "adc-form",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "endpointKey",
+        "label": "Form Type (API endpoint key)",
+        "description": "The key resolved by the serverless proxy to the ESL API URL, e.g. contactUs or newsletter. This is NOT a URL — the real endpoint + secret live only in the proxy.",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "successMessage",
+        "label": "Success Message",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "failureMessage",
+        "label": "Failure Message",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "submitLabel",
+        "label": "Submit Button Label",
+        "value": "Submit"
+      }
+    ]
+  },
+  {
+    "id": "adc-form-field",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "control",
+        "label": "Field Type",
+        "value": "text",
+        "options": [
+          {
+            "name": "Text",
+            "value": "text"
+          },
+          {
+            "name": "Email",
+            "value": "email"
+          },
+          {
+            "name": "Phone",
+            "value": "tel"
+          },
+          {
+            "name": "Password",
+            "value": "password"
+          },
+          {
+            "name": "Text Area",
+            "value": "textarea"
+          },
+          {
+            "name": "Dropdown (Select)",
+            "value": "select"
+          },
+          {
+            "name": "Checkbox",
+            "value": "checkbox"
+          },
+          {
+            "name": "Radio Group",
+            "value": "radio"
+          },
+          {
+            "name": "Hidden",
+            "value": "hidden"
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "name",
+        "label": "Field Name (submitted key)",
+        "description": "Property name in the JSON body. Supports dot notation for nesting, e.g. address.city.",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "settings_label",
+        "label": "Label",
+        "value": ""
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "settings_required",
+        "label": "Required",
+        "value": "false",
+        "options": [
+          {
+            "name": "No",
+            "value": "false"
+          },
+          {
+            "name": "Yes",
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "settings_placeholder",
+        "label": "Placeholder",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "settings_regex",
+        "label": "Validation Regex (optional)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "settings_errorMsg",
+        "label": "Validation Error Message (optional)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "options",
+        "label": "Options / Value",
+        "description": "For select/checkbox/radio: Label:value pairs separated by ; (e.g. United States:US;United Kingdom:UK). For a single consent checkbox you may embed a version as value|version. For a hidden field, the fixed value.",
+        "value": ""
+      }
+    ]
+  },
+  {
     "id": "adc-button",
     "fields": [
       {

@@ -137,3 +137,52 @@
     text-align: center;
   }
 }
+
+/* ─── Select ─────────────────────────────────────────────────────────────── */
+.adc-form select.a-input-control {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%23555" d="M1 1l5 5 5-5"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+/* ─── Choice fields (checkbox / radio) ───────────────────────────────────── */
+.adc-form .a-choice-field .a-input-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.adc-form .a-choice-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.adc-form .a-choice-option input {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  accent-color: var(--color-link, #0057b8);
+}
+
+.adc-form .a-choice-option label {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--color-text, #1d1d1d);
+  cursor: pointer;
+}
+
+/* ─── Secondary button ───────────────────────────────────────────────────── */
+.adc-form .abt-btn-secondary {
+  background: transparent;
+  color: var(--color-link, #0057b8);
+  border: 1px solid var(--color-link, #0057b8);
+}
+
+.adc-form .abt-btn-secondary:hover {
+  background: rgb(0 87 184 / 8%);
+}
