@@ -548,17 +548,32 @@ function parseFieldRow(cells) {
   };
 }
 
-export default function decorate(block) {
-  // Idempotency guard. The Universal Editor re-invokes decorate() on the SAME
-  // block element after edits (e.g. adding a field). Because we rebuild the DOM
-  // into a <form>, a second run would read the already-transformed markup —
-  // not the original field rows — and drop every previously parsed field
-  // (the "field disappears until refresh" bug). Fresh server markup never
-  // contains .o-form-container, so a full page reload still decorates fully.
-  if (block.querySelector(':scope > .o-form-container')) return;
+// True for the adc-form-field child rows the Universal Editor renders. Each
+// xwalk block/item child carries its own data-aue-model / resource, which is a
+// far more reliable signal than trying to match the control value text.
+function isFieldItemRow(row) {
+  if (row.getAttribute('data-aue-model') === 'adc-form-field') return true;
+  const res = row.getAttribute('data-aue-resource') || '';
+  return /adc[-_]?form[-_]?field/i.test(res);
+}
 
+export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
   if (!rows.length) return;
+
+  // Editor-only diagnostic: dump the raw row/cell shape decorate receives so the
+  // exact Universal Editor DOM can be inspected from the browser console.
+  if (block.hasAttribute('data-aue-resource')) {
+    // eslint-disable-next-line no-console
+    console.debug('[adc-form] raw rows', rows.map((r) => {
+      const cs = [...r.querySelectorAll(':scope > div')];
+      return {
+        cells: cs.length,
+        first: cs[0]?.textContent.trim().slice(0, 24),
+        model: r.getAttribute('data-aue-model') || '',
+      };
+    }));
+  }
 
   const config = {
     formType: '',
@@ -592,12 +607,14 @@ export default function decorate(block) {
     if (!cells.length) return;
     const firstText = cells[0].textContent.trim();
     const firstLc = firstText.toLowerCase();
+    const ueField = isFieldItemRow(row);
 
-    if (FIELD_TYPES.has(firstLc) && cells.length >= 2) {
+    if (ueField || (FIELD_TYPES.has(firstLc) && cells.length >= 2)) {
+      // Field row: a UE adc-form-field child item, or a DA table field row.
       const field = parseFieldRow(cells);
-      // Keep named fields (production) and any UE-instrumented item row (even if
-      // not yet named) so a just-added field persists in the editor.
-      if (field.name || row.hasAttribute('data-aue-resource')) {
+      // Keep named fields (production) and any UE item row (even if not yet
+      // named) so a just-added field persists in the editor.
+      if (field.name || ueField || row.hasAttribute('data-aue-resource')) {
         field.sourceRow = row;
         fields.push(field);
       }
@@ -608,6 +625,14 @@ export default function decorate(block) {
     } else if (cells.length === 1) {
       // UE single-cell container config value (mapped positionally below).
       positionalConfig.push(firstText);
+    } else if (cells.length >= 2) {
+      // The container's own model fields rendered as one multi-cell row
+      // [formType, successMessage, failureMessage, submitLabel] — map in order.
+      cells.forEach((c, i) => {
+        const prop = UE_CONFIG_ORDER[i];
+        if (prop) assignConfig(prop, cellText(c));
+      });
+      hasKeyedConfig = true;
     }
   });
 
