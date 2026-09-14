@@ -549,6 +549,14 @@ function parseFieldRow(cells) {
 }
 
 export default function decorate(block) {
+  // Idempotency guard. The Universal Editor re-invokes decorate() on the SAME
+  // block element after edits (e.g. adding a field). Because we rebuild the DOM
+  // into a <form>, a second run would read the already-transformed markup —
+  // not the original field rows — and drop every previously parsed field
+  // (the "field disappears until refresh" bug). Fresh server markup never
+  // contains .o-form-container, so a full page reload still decorates fully.
+  if (block.querySelector(':scope > .o-form-container')) return;
+
   const rows = [...block.querySelectorAll(':scope > div')];
   if (!rows.length) return;
 
