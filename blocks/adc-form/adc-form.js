@@ -512,15 +512,30 @@ const UE_CONFIG_ORDER = ['formType', 'successMessage', 'failureMessage', 'submit
 
 const cellText = (el) => el?.textContent?.trim() || '';
 
-function parseFieldRow(cells) {
-  const type = cellText(cells[0]).toLowerCase() || 'text';
-  const name = cellText(cells[1]);
+/**
+ * Flattens a UE field-item row into the model's value sequence, regardless of
+ * whether xwalk emits the grouped `settings_*` fields as one multi-child cell
+ * or as separate cells. A cell that wraps several block children (a grouped
+ * cell) is expanded into its individual values; a plain cell contributes its
+ * own text. The result is always ordered by the adc-form-field model:
+ *   [type, name, label, required, placeholder, regex, errorMsg, options]
+ */
+function rowLeafValues(cells) {
+  const values = [];
+  cells.forEach((cell) => {
+    const kids = [...cell.children].filter((k) => /^(P|DIV|SPAN|LI)$/.test(k.tagName));
+    if (kids.length > 1) kids.forEach((k) => values.push(cellText(k)));
+    else values.push(cellText(cell));
+  });
+  return values;
+}
 
+function parseFieldRow(cells) {
+  // Flat DA table row: type,name,label,required,placeholder,regex,errorMsg,options
   if (cells.length >= 7) {
-    // Flat DA table row: type,name,label,required,placeholder,regex,errorMsg,options
     return {
-      type,
-      name,
+      type: cellText(cells[0]).toLowerCase() || 'text',
+      name: cellText(cells[1]),
       label: cellText(cells[2]),
       required: /^true$/i.test(cellText(cells[3])),
       placeholder: cellText(cells[4]),
@@ -530,21 +545,23 @@ function parseFieldRow(cells) {
     };
   }
 
-  // Universal Editor item row (adc-form-field): cells are
-  //   [type, name, settings-group, options]
-  // where the settings group holds label/required/placeholder/regex/errorMsg
-  // rendered in model order as child elements of one cell.
-  const parts = cells[2] ? [...cells[2].children].map(cellText) : [];
-  const [label = '', required = '', placeholder = '', regex = '', errorMsg = ''] = parts;
+  // Universal Editor item row (adc-form-field). Flatten to the model's value
+  // order so it works whether settings are grouped in one cell or split across
+  // cells (trailing empty values simply drop off).
+  const v = rowLeafValues(cells);
+  const [
+    type = '', name = '', label = '', required = '',
+    placeholder = '', regex = '', errorMsg = '', options = '',
+  ] = v;
   return {
-    type,
+    type: type.toLowerCase() || 'text',
     name,
     label,
     required: /^true$/i.test(required),
     placeholder,
     regex,
     errorMsg,
-    value: cells.length >= 4 ? cellText(cells[3]) : '',
+    value: options,
   };
 }
 
@@ -571,6 +588,7 @@ export default function decorate(block) {
         cells: cs.length,
         first: cs[0]?.textContent.trim().slice(0, 24),
         model: r.getAttribute('data-aue-model') || '',
+        leaves: isFieldItemRow(r) ? rowLeafValues(cs) : undefined,
       };
     }));
   }
