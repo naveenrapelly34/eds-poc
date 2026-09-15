@@ -13,6 +13,12 @@
  * options as "Label:value" pairs separated by ";" (a single checkbox may embed
  * a consent version in its value as "value|version").
  *
+ * Dynamic dropdowns: a select whose options cell is "lookup:<key>" (e.g.
+ * "lookup:states") is filled at render time from the proxy lookup route
+ * (data-lookup-endpoint, default derived from data-endpoint) — the EDS
+ * equivalent of AEM's LookupDataSource servlet. Static "Label:value" options
+ * continue to work unchanged.
+ *
  * Submission flow:
  *   fetch('POST', config.endpoint) → serverless proxy (adds secret) → ESL API
  *   When `data-endpoint` is empty or "demo" the block runs in demo mode and
@@ -24,6 +30,7 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 // Serverless proxy endpoint (set via the block attribute `data-endpoint`).
 const ENDPOINT_ATTR = 'data-endpoint';
+const LOOKUP_ENDPOINT_ATTR = 'data-lookup-endpoint';
 const RECAPTCHA_SITE_KEY_ATTR = 'data-recaptcha-site-key';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -258,6 +265,19 @@ function parseOptions(str) {
     });
 }
 
+// Options cell prefix that turns a select into a dynamic ESL-backed dropdown.
+// e.g. Options = "lookup:states" → options fetched at render time from the
+// proxy (the EDS equivalent of AEM's LookupDataSource servlet). Anything
+// without this prefix is treated as static "Label:value" pairs, so existing
+// authored selects keep working unchanged.
+const LOOKUP_PREFIX = 'lookup:';
+
+const lookupTypeOf = (value) => (
+  (value || '').trim().toLowerCase().startsWith(LOOKUP_PREFIX)
+    ? value.trim().slice(LOOKUP_PREFIX.length).trim()
+    : ''
+);
+
 function buildErrorEl() {
   const errorEl = document.createElement('div');
   errorEl.className = 'form-text a-input-field-text-require';
@@ -298,12 +318,19 @@ function buildSelectField({
   ph.selected = true;
   select.append(ph);
 
-  parseOptions(value).forEach((opt) => {
-    const optionEl = document.createElement('option');
-    optionEl.value = opt.value;
-    optionEl.textContent = opt.label;
-    select.append(optionEl);
-  });
+  const lookupType = lookupTypeOf(value);
+  if (lookupType) {
+    // Dynamic ESL-backed dropdown: mark it for hydrateLookups() to fill after
+    // render. Static options are skipped so the two modes never mix.
+    select.dataset.lookup = lookupType;
+  } else {
+    parseOptions(value).forEach((opt) => {
+      const optionEl = document.createElement('option');
+      optionEl.value = opt.value;
+      optionEl.textContent = opt.label;
+      select.append(optionEl);
+    });
+  }
 
   select.addEventListener('change', () => validateField(select));
   group.append(select);
@@ -574,6 +601,44 @@ function isFieldItemRow(row) {
   return /adc[-_]?form[-_]?field/i.test(res);
 }
 
+/**
+ * Populates dynamic ESL-backed dropdowns after the form renders — the EDS
+ * equivalent of AEM's LookupDataSource servlet. For each `select[data-lookup]`
+ * it GETs the proxy lookup route with the page's application/country/language
+ * context and appends the returned options. Failures degrade gracefully (the
+ * select keeps its placeholder); the form is never blocked on a lookup.
+ */
+async function hydrateLookups(root, config) {
+  const selects = [...root.querySelectorAll('select[data-lookup]')];
+  if (!selects.length || !config.lookupEndpoint) return;
+
+  const { applicationId, countryCode, language } = config.context || {};
+  await Promise.all(selects.map(async (select) => {
+    const type = select.dataset.lookup;
+    const url = new URL(config.lookupEndpoint, window.location.origin);
+    url.searchParams.set('type', type);
+    if (applicationId) url.searchParams.set('app', applicationId);
+    if (countryCode) url.searchParams.set('country', countryCode);
+    if (language) url.searchParams.set('lang', language);
+    try {
+      const res = await fetch(url.toString());
+      if (!res.ok) return;
+      const data = await res.json().catch(() => ({}));
+      const options = Array.isArray(data.options) ? data.options : [];
+      const frag = document.createDocumentFragment();
+      options.forEach((opt) => {
+        const optionEl = document.createElement('option');
+        optionEl.value = opt.value;
+        optionEl.textContent = opt.label;
+        frag.append(optionEl);
+      });
+      select.append(frag);
+    } catch {
+      // Network/JSON errors leave the placeholder in place — non-fatal.
+    }
+  }));
+}
+
 export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
   if (!rows.length) return;
@@ -602,6 +667,9 @@ export default function decorate(block) {
     resetLabel: block.getAttribute('data-reset-label') || '',
     recaptchaSiteKey: block.getAttribute(RECAPTCHA_SITE_KEY_ATTR) || '',
     endpoint: block.getAttribute(ENDPOINT_ATTR) || metaContent('form-endpoint') || '',
+    lookupEndpoint: block.getAttribute(LOOKUP_ENDPOINT_ATTR)
+      || metaContent('form-lookup-endpoint')
+      || (block.getAttribute(ENDPOINT_ATTR) || '').replace(/form-submit(\/?)$/, 'form-lookup$1'),
     context: getFormContext(),
   };
 
@@ -687,4 +755,7 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(container);
+
+  // Fill any dynamic ESL-backed dropdowns once the form is in the DOM.
+  hydrateLookups(form, config);
 }
