@@ -354,21 +354,21 @@ main > .section > .hero-wrapper {
   margin-top: 1rem;
 }
 
-/* 5b. Tall/medium base section heights (non-circle variants) */
+/* 5b. Tall/medium base section heights (non-circle variants).
+   Use min-height (not fixed height) so long content + buttons are never clipped. */
 .hero.hero-tall .hero-section {
-  height: 520px;
+  min-height: 520px;
 }
 
 @media (width >= 768px) {
   .hero.hero-tall .hero-section {
-    height: 900px;
+    min-height: 900px;
   }
 }
 
 @media (width >= 992px) {
   .hero.hero-tall .hero-section {
-    height: 640px;
-    max-height: 640px;
+    min-height: 640px;
   }
 
   .hero.hero-tall .hero-content {
@@ -377,19 +377,18 @@ main > .section > .hero-wrapper {
 }
 
 .hero.hero-medium .hero-section {
-  height: 480px;
+  min-height: 480px;
 }
 
 @media (width >= 768px) {
   .hero.hero-medium .hero-section {
-    height: 700px;
+    min-height: 700px;
   }
 }
 
 @media (width >= 992px) {
   .hero.hero-medium .hero-section {
-    height: 500px;
-    max-height: 500px;
+    min-height: 500px;
   }
 
   .hero.hero-medium .hero-content {
@@ -404,7 +403,9 @@ main > .section > .hero-wrapper {
 }
 
 .hero.hero-copy-inside-circle .hero-section {
-  height: 800px;
+  min-height: 800px;
+  height: auto;
+  padding-bottom: 40px;
 }
 
 .hero.hero-copy-inside-circle .hero-section .hero-container {
