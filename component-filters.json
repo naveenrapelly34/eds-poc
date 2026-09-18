@@ -14,40 +14,14 @@
       "title",
       "hero",
       "cards",
-      "fragment",
       "columns",
-      "hero-banner",
-      "adc-accordion",
-      "adc-tabs",
-      "adc-cta-banner",
-      "adc-form",
-      "adc-card-carousel",
-      "adc-video-playlist",
-      "adc-cards",
-      "adc-card",
-      "adc-image",
-      "adc-inline-text-title",
-      "adc-link",
-      "adc-logo",
-      "adc-button",
-      "adc-header-logo",
-      "adc-mega-menu",
-      "adc-header-search",
-      "adc-header-link",
-      "adc-header-language",
-      "adc-header-links"
+      "fragment"
     ]
   },
   {
     "id": "adc-accordion",
     "components": [
       "adc-accordion-item"
-    ]
-  },
-  {
-    "id": "adc-form",
-    "components": [
-      "adc-form-field"
     ]
   },
   {
@@ -106,4 +80,3 @@
     ]
   }
 ]
-

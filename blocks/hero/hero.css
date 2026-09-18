@@ -1,37 +1,744 @@
-.hero-container .hero-wrapper {
-  max-width: unset;
-  padding: 0;
-}
+/* ==========================================================================
+   ADC Hero Banner
+   ========================================================================== */
 
+/* 1. CSS custom properties */
 .hero {
+  --hero-bg-light: #fff;
+  --hero-header-color: #222731;
+  --hero-header-font-weight: 700;
+  --hero-header-h1-border-color: #ffd100;
+  --hero-body-margin-top: 1rem;
+  --hero-content-default-width: 50%;
+  --hero-extras-margin-top: 1rem;
+  --hero-extras-between-spacing: 1.5rem;
+  --hero-media-image-object-fit: cover;
+  --hero-media-image-object-position: center center;
+  --hero-short-background-color: #ffd100;
+  --hero-short-background-linear: linear-gradient(180deg, #ffd100 50%, #fff0aa 100%);
+  --hero-image-circle-bg: #f7f7f9;
+
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  z-index: 0;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
+@media (width >= 992px) {
+  .hero {
+    overflow: hidden;
+  }
+}
+
+@media (width >= 1400px) {
+  .hero {
+    max-width: var(--container-xxl-max-width, 1600px);
+    margin: 0 auto;
+  }
+}
+
+/* 2. Layout utilities (must be before variant overrides) */
+.hero .container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
   margin-right: auto;
-  color: var(--background-color);
+  margin-left: auto;
 }
 
-.hero picture {
-  position: absolute;
+@media (width >= 992px) {
+  .hero .container {
+    max-width: 960px;
+  }
+}
+
+@media (width >= 1200px) {
+  .hero .container {
+    max-width: 1140px;
+  }
+}
+
+@media (width >= 1400px) {
+  .hero .container {
+    max-width: 1320px;
+  }
+}
+
+.hero .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.hero .hero-column {
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+}
+
+@media (width >= 576px) {
+  .hero .hero-column {
+    width: 66.6667%;
+  }
+}
+
+@media (width >= 768px) {
+  .hero .hero-column {
+    width: 50%;
+  }
+}
+
+@media (width >= 992px) {
+  .hero .hero-column {
+    width: 50%;
+    height: 100%;
+  }
+}
+
+@media (width >= 1200px) {
+  .hero .hero-column {
+    width: 41.6667%;
+  }
+}
+
+/* 3. Component base rules */
+.hero .hero-section {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.hero .hero-media {
   z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+  order: 1;
 }
 
-.hero img {
-  object-fit: cover;
+@media (width >= 992px) {
+  .hero .hero-media {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.hero .hero-media img,
+.hero .hero-media picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--hero-media-image-object-fit);
+  object-position: var(--hero-media-image-object-position);
+  display: block;
+}
+
+.hero .hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 }
 
-@media (width >= 900px) {
-  .hero {
-    padding: 40px 32px;
+.hero .hero-content {
+  overflow-wrap: break-word;
+  hyphens: manual;
+  order: 2;
+  position: relative;
+}
+
+.hero .hero-content h1.hero-header {
+  font-weight: var(--hero-header-font-weight);
+}
+
+@media (width >= 992px) {
+  .hero .hero-content {
+    width: var(--hero-content-default-width);
   }
+}
+
+.hero .hero-body {
+  margin-top: var(--hero-body-margin-top);
+}
+
+.hero .hero-pretitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: var(--hero-header-color);
+}
+
+.hero .hero-extras {
+  width: 100%;
+  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (width >= 992px) {
+  .hero .hero-extras {
+    gap: 32px;
+  }
+}
+
+.hero .hero-extras .button {
+  flex: 1 1 auto;
+  min-width: min-content;
+  display: flex;
+  height: fit-content;
+}
+
+.hero .hero-extras .btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  text-transform: capitalize;
+  width: 100%;
+  background-color: #001489;
+  color: #fff;
+  box-shadow: -5px 5px 14px 0 rgb(0 0 0 / 5%), 2px 2px 5px 0 rgb(0 0 0 / 10%);
+}
+
+.hero .hero-extras .btn:focus {
+  box-shadow: none;
+}
+
+.hero .hero-extras .btn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.hero .hero-extras .btn-primary {
+  background-color: #001489;
+  color: #fff;
+}
+
+.hero .hero-extras .btn-primary:hover {
+  background-color: #000e5e;
+  box-shadow: none;
+}
+
+.hero .hero-extras .btn-primary:active {
+  background-color: #001489;
+  box-shadow: none;
+}
+
+.hero .hero-extras .btn-primary-alt {
+  background-color: #ffd100;
+  color: #001489;
+  box-shadow: 0 0 0 1px #000;
+}
+
+.hero .hero-extras .btn-primary-alt:hover {
+  background-color: #eeb33b;
+  box-shadow: none;
+}
+
+.hero .hero-extras .btn-primary-alt:active {
+  background-color: #ffd100;
+  box-shadow: none;
+}
+
+.hero .hero-extras .btn-secondary {
+  background-color: #fff;
+  color: #001489;
+  border: 1px solid #001489;
+  box-shadow: 0 0 0 1px #000;
+}
+
+.hero .hero-extras .btn-secondary:hover {
+  background-color: #001489;
+  color: #fff;
+  box-shadow: none;
+}
+
+.hero .hero-extras .btn-secondary:active {
+  background-color: #fff;
+  box-shadow: 0 0 0 1px #001489;
+}
+
+/* 4. Overlap section */
+.hero .hero-section-overlap {
+  position: relative;
+  margin: 0 auto;
+  height: 100%;
+  align-items: start;
+}
+
+.hero .hero-section-overlap .hero-overlap-logo {
+  top: -60px;
+  right: 15px;
+  height: 120px;
+  position: absolute;
+  width: 120px;
+  padding: 0;
+}
+
+.hero .hero-section-overlap .hero-overlap-logo:not(:has(img)) {
+  display: none;
+}
+
+@media (width >= 992px) {
+  .hero .hero-section-overlap .hero-overlap-logo {
+    right: 0;
+  }
+}
+
+.hero .hero-section-overlap .hero-overlap-image {
+  margin-top: -95px;
+  left: 0;
+}
+
+.hero .hero-section-overlap .hero-overlap-image img {
+  max-width: 184px;
+  height: auto;
+  position: relative;
+}
+
+.hero .hero-section-overlap .hero-overlap-image:not(:has(img)) {
+  display: none;
+}
+
+@media (width >= 992px) {
+  .hero .hero-section-overlap .hero-overlap-image {
+    margin-top: -111px;
+  }
+
+  .hero .hero-section-overlap .hero-overlap-image img {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+}
+
+.hero .hero-section-overlap .hero-overlap-content .hero-copy {
+  margin-top: 24px;
+  padding-bottom: 40px;
+  overflow-wrap: break-word;
+}
+
+@media (width >= 992px) {
+  .hero .hero-section-overlap .hero-overlap-content .hero-copy {
+    margin-top: 65px;
+  }
+}
+
+/* 5. Short variant */
+.hero-short {
+  padding: 40px 0;
+}
+
+.hero-short .hero-content {
+  width: 100%;
+}
+
+.hero-short .hero-content .hero-extras {
+  margin-top: 1rem;
+}
+
+/* 5b. Tall/medium base section heights (non-circle variants) */
+.hero.hero-tall .hero-section {
+  height: 520px;
+}
+
+@media (width >= 768px) {
+  .hero.hero-tall .hero-section {
+    height: 900px;
+  }
+}
+
+@media (width >= 992px) {
+  .hero.hero-tall .hero-section {
+    height: 640px;
+    max-height: 640px;
+  }
+
+  .hero.hero-tall .hero-content {
+    padding-top: 104px;
+  }
+}
+
+.hero.hero-medium .hero-section {
+  height: 480px;
+}
+
+@media (width >= 768px) {
+  .hero.hero-medium .hero-section {
+    height: 700px;
+  }
+}
+
+@media (width >= 992px) {
+  .hero.hero-medium .hero-section {
+    height: 500px;
+    max-height: 500px;
+  }
+
+  .hero.hero-medium .hero-content {
+    padding-top: 80px;
+  }
+}
+
+/* 6. Copy-inside-circle variant */
+.hero.hero-copy-inside-circle {
+  height: auto;
+  overflow: visible;
+}
+
+.hero.hero-copy-inside-circle .hero-section {
+  height: 800px;
+}
+
+.hero.hero-copy-inside-circle .hero-section .hero-container {
+  position: initial;
+  height: 100%;
+}
+
+.hero.hero-copy-inside-circle .hero-section .hero-container .row {
+  height: 100%;
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle .hero-section .hero-container .row {
+    align-items: center;
+  }
+}
+
+.hero.hero-copy-inside-circle .hero-column {
+  transform: translateX(-50%);
+  left: 50%;
+  padding: 0;
+  position: relative;
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle .hero-column {
+    padding: 0 15px;
+    transform: none;
+    left: unset;
+  }
+}
+
+.hero.hero-copy-inside-circle .hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-left: 0;
+  padding: 25% 0 0;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle .hero-content {
+    align-items: start;
+  }
+}
+
+.hero.hero-copy-inside-circle .hero-content::before {
+  background: var(--hero-bg-light);
+  border-radius: 100%;
+  content: '';
+  display: block;
+  width: 480px;
+  height: 480px;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+}
+
+@media (768px <= width <= 1199px) {
+  .hero.hero-copy-inside-circle .hero-content::before {
+    width: 510px;
+    height: 490px;
+  }
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle .hero-content::before {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 720px;
+    height: 720px;
+  }
+}
+
+.hero.hero-copy-inside-circle .hero-body {
+  position: relative;
+  text-align: center;
+  margin-top: 0;
+  color: var(--hero-header-color);
+}
+
+.hero.hero-copy-inside-circle .hero-header {
+  text-align: center;
+  position: relative;
+  color: var(--hero-header-color);
+  margin-bottom: 0;
+}
+
+.hero.hero-copy-inside-circle .hero-header::after {
+  content: '';
+  left: 50%;
+  top: 100%;
+  margin: 24px auto;
+  bottom: unset;
+  display: block;
+  width: 3.75rem;
+  background: var(--hero-header-h1-border-color);
+  height: 4px;
+  border-radius: 1rem;
+}
+
+.hero.hero-copy-inside-circle .hero-subtitle * {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.hero.hero-copy-inside-circle .hero-extras {
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--hero-extras-margin-top);
+  position: absolute;
+  top: 500px;
+}
+
+.hero.hero-copy-inside-circle .hero-media,
+.hero.hero-copy-inside-circle .hero-image,
+.hero.hero-copy-inside-circle .hero-media img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle .hero-body {
+    text-align: left;
+  }
+
+  .hero.hero-copy-inside-circle .hero-header {
+    text-align: left;
+  }
+
+  .hero.hero-copy-inside-circle .hero-header::after {
+    top: 100%;
+    left: unset;
+    transform: unset;
+    margin: 24px 0;
+  }
+
+  .hero.hero-copy-inside-circle .hero-subtitle * {
+    text-align: left;
+  }
+
+  .hero.hero-copy-inside-circle .hero-extras {
+    justify-content: left;
+    position: relative;
+    flex-wrap: nowrap;
+    top: unset;
+  }
+}
+
+.hero.hero-copy-inside-circle.hero-tall .hero-section {
+  height: 800px;
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle.hero-tall .hero-section {
+    height: 640px;
+    max-height: 640px;
+  }
+}
+
+.hero.hero-copy-inside-circle.hero-medium .hero-section {
+  height: 800px;
+}
+
+@media (width >= 992px) {
+  .hero.hero-copy-inside-circle.hero-medium .hero-section {
+    height: 500px;
+    max-height: 500px;
+  }
+
+  .hero.hero-copy-inside-circle.hero-medium .hero-section .hero-content {
+    padding: 15% 0 0;
+  }
+}
+
+/* 7. Image-in-circle variant */
+.hero.hero-medium.hero-image-in-circle {
+  padding: 0;
+  height: auto;
+  position: relative;
+  background: var(--hero-bg-light);
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-section {
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-content {
+  padding: 24px 16px 0;
+  width: 100%;
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-content .hero-extras {
+  margin-top: 16px;
+}
+
+/* Circle media column — not .hero-media so base absolute rules don't apply */
+.hero.hero-medium.hero-image-in-circle .hero-media-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-media-circle .hero-image {
+  /* Reset base .hero .hero-image absolute positioning */
+  position: relative;
+  top: auto;
+  left: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-media-circle img {
+  width: 375px;
+  height: 375px;
+  border-radius: 100%;
+  position: relative;
+  object-fit: cover;
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-section-overlap {
+  background: unset;
+}
+
+.hero.hero-medium.hero-image-in-circle .hero-section-overlap .hero-overlap-image {
+  text-align: right;
+}
+
+.hero.hero-medium.hero-image-in-circle.hero-bg-yellow-gradient .hero-section {
+  background: var(--hero-short-background-linear);
+}
+
+.hero.hero-medium.hero-image-in-circle.hero-bg-gray .hero-section {
+  background: var(--hero-image-circle-bg);
+}
+
+@media (768px <= width <= 1199px) {
+  .hero.hero-medium.hero-image-in-circle .hero-media-circle img {
+    width: 480px;
+    height: 480px;
+  }
+}
+
+@media (width >= 992px) {
+  .hero.hero-medium.hero-image-in-circle .hero-content {
+    height: auto;
+    min-height: 500px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 40px 40px 0;
+    width: 100%;
+  }
+
+  /* Side-by-side layout: content 50%, circle 50% */
+  .hero.hero-medium.hero-image-in-circle .row {
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-column {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-media-circle {
+    flex: 0 0 50%;
+    width: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-media-circle .hero-image {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-media-circle img {
+    width: 720px;
+    height: 720px;
+    border-radius: 100%;
+    object-fit: cover;
+    position: relative;
+    flex-shrink: 0;
+    margin-left: calc(100% - 360px); /* center of circle at right edge of column */
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-section-overlap {
+    background: var(--hero-bg-light);
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-section-overlap .hero-overlap-logo {
+    right: 0;
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-section-overlap .hero-overlap-image {
+    text-align: left;
+    margin-top: -75px;
+  }
+
+  .hero.hero-medium.hero-image-in-circle .hero-section-overlap .hero-overlap-image img {
+    max-width: 280px;
+    max-height: 280px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero.hero-medium.hero-image-in-circle.hero-extra-padding .hero-content {
+    padding-bottom: 100px;
+  }
+}
+
+/* 8. Background colour variants */
+.hero.hero-bg-yellow-gradient {
+  background: var(--hero-short-background-linear);
+}
+
+.hero.hero-bg-gray {
+  background-color: var(--hero-image-circle-bg);
 }
