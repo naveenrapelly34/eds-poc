@@ -22,6 +22,14 @@
   z-index: 0;
 }
 
+/* Full-bleed: break the hero out of the section's 1200px content wrapper
+   so the background/image circle spans the full viewport width.
+   The inner `.hero .container` still constrains the content (matches AEM). */
+main > .section > .hero-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
 @media (width >= 992px) {
   .hero {
     overflow: hidden;
