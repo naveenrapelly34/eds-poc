@@ -469,6 +469,13 @@ async function submitForm(form, config, successEl, errorEl, submitBtn) {
   try {
     const { body, headers } = serializeForm(form);
 
+    // AEM Form Container parity: the container's `requestType` is added to the
+    // JSON payload (e.g. "newsletter_subscription") so the ESL API can route
+    // the submission. Fields never overwrite it.
+    if (config.requestType && body.requestType === undefined) {
+      body.requestType = config.requestType;
+    }
+
     // Add reCAPTCHA token if configured
     if (config.recaptcha && config.recaptchaSiteKey) {
       const token = await getRecaptchaToken(config.recaptchaSiteKey);
@@ -526,16 +533,20 @@ const FIELD_TYPES = new Set([
 const CONFIG_KEY_MAP = new Map([
   ['formtype', 'formType'],
   ['endpointkey', 'formType'],
+  ['requesttype', 'requestType'],
   ['successmessage', 'successMessage'],
   ['failuremessage', 'failureMessage'],
   ['recaptcha', 'recaptcha'],
   ['submitlabel', 'submitLabel'],
   ['resetlabel', 'resetLabel'],
+  ['endpoint', 'endpoint'],
+  ['proxyendpoint', 'endpoint'],
 ]);
 
 // Universal Editor container (adc-form) model field order. Leading single-cell
-// value rows map positionally to these properties.
-const UE_CONFIG_ORDER = ['formType', 'successMessage', 'failureMessage', 'submitLabel'];
+// value rows map positionally to these properties (endpoint is detected by its
+// URL shape, so it is not positional).
+const UE_CONFIG_ORDER = ['formType', 'requestType', 'successMessage', 'failureMessage', 'submitLabel'];
 
 const cellText = (el) => el?.textContent?.trim() || '';
 
@@ -660,16 +671,20 @@ export default function decorate(block) {
 
   const config = {
     formType: '',
+    requestType: '',
     successMessage: '',
     failureMessage: '',
     recaptcha: false,
     submitLabel: 'Submit',
     resetLabel: block.getAttribute('data-reset-label') || '',
     recaptchaSiteKey: block.getAttribute(RECAPTCHA_SITE_KEY_ATTR) || '',
+    // Proxy URL: attribute/metadata is the site-level (AEM OSGi-equivalent)
+    // source. A URL authored in the UE container dialog overrides it below.
     endpoint: block.getAttribute(ENDPOINT_ATTR) || metaContent('form-endpoint') || '',
+    // Explicit lookup URL only; if absent it is derived from `endpoint` after
+    // the config rows are parsed (so a UE-authored endpoint is respected too).
     lookupEndpoint: block.getAttribute(LOOKUP_ENDPOINT_ATTR)
-      || metaContent('form-lookup-endpoint')
-      || (block.getAttribute(ENDPOINT_ATTR) || '').replace(/form-submit(\/?)$/, 'form-lookup$1'),
+      || metaContent('form-lookup-endpoint') || '',
     context: getFormContext(),
   };
 
@@ -677,7 +692,11 @@ export default function decorate(block) {
     const value = (rawValue || '').trim();
     if (prop === 'recaptcha') config.recaptcha = /^true$/i.test(value);
     else if (prop === 'submitLabel') config.submitLabel = value || 'Submit';
-    else config[prop] = value;
+    // The proxy URL is optional in the dialog — never let a blank value wipe
+    // the site-level attribute/metadata fallback.
+    else if (prop === 'endpoint') {
+      if (value) config.endpoint = value;
+    } else config[prop] = value;
   };
 
   const fields = [];
@@ -709,14 +728,24 @@ export default function decorate(block) {
       assignConfig(CONFIG_KEY_MAP.get(firstLc), cells[cells.length - 1].textContent);
       hasKeyedConfig = true;
     } else if (cells.length === 1) {
-      // UE single-cell container config value (mapped positionally below).
-      positionalConfig.push(firstText);
+      // A URL is unambiguous — treat it as the proxy endpoint no matter where
+      // it sits, so it never shifts the positional message mapping.
+      if (/^https?:\/\//i.test(firstText)) assignConfig('endpoint', firstText);
+      else positionalConfig.push(firstText);
     } else if (cells.length >= 2) {
       // The container's own model fields rendered as one multi-cell row
-      // [formType, successMessage, failureMessage, submitLabel] — map in order.
-      cells.forEach((c, i) => {
-        const prop = UE_CONFIG_ORDER[i];
-        if (prop) assignConfig(prop, cellText(c));
+      // [formType, successMessage, failureMessage, submitLabel, endpoint].
+      // URL cells go straight to `endpoint`; the rest map in model order.
+      let pi = 0;
+      cells.forEach((c) => {
+        const value = cellText(c);
+        if (/^https?:\/\//i.test(value)) {
+          assignConfig('endpoint', value);
+          return;
+        }
+        const prop = UE_CONFIG_ORDER[pi];
+        pi += 1;
+        if (prop) assignConfig(prop, value);
       });
       hasKeyedConfig = true;
     }
@@ -728,6 +757,12 @@ export default function decorate(block) {
       const prop = UE_CONFIG_ORDER[i];
       if (prop) assignConfig(prop, value);
     });
+  }
+
+  // Derive the lookup endpoint from the (possibly UE-authored) submit endpoint
+  // when one was not supplied explicitly — mirrors AEM's single ESL domain.
+  if (!config.lookupEndpoint && config.endpoint) {
+    config.lookupEndpoint = config.endpoint.replace(/form-submit(\/?)$/, 'form-lookup$1');
   }
 
   // Build the form

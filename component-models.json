@@ -199,8 +199,16 @@
         "component": "text",
         "valueType": "string",
         "name": "endpointKey",
-        "label": "Form Type (API endpoint key)",
-        "description": "The key resolved by the serverless proxy to the ESL API URL, e.g. contactUs or newsletter. This is NOT a URL — the real endpoint + secret live only in the proxy.",
+        "label": "Form Type (API endpoint key or path)",
+        "description": "What identifies the ESL API to call. Either a key the proxy maps to a URL (e.g. contactUs) OR the relative API path itself (e.g. /api/v2/public/profile/subscriptions), mirroring the AEM Form Container's formType. The real base URL + secret live only in the proxy.",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "requestType",
+        "label": "Request Type",
+        "description": "Added to the JSON payload as requestType (e.g. newsletter_subscription), exactly like the AEM Form Container. Leave blank if the API does not need it.",
         "value": ""
       },
       {
@@ -223,6 +231,14 @@
         "name": "submitLabel",
         "label": "Submit Button Label",
         "value": "Submit"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "endpoint",
+        "label": "Proxy Endpoint URL (optional)",
+        "description": "Full URL of your serverless form proxy submit route, e.g. https://your-proxy.example.com/api/form-submit. The lookup route for dynamic dropdowns is derived automatically by replacing 'form-submit' with 'form-lookup'. Leave blank in production and set the site-level 'form-endpoint' metadata instead (the AEM OSGi-config equivalent).",
+        "value": ""
       }
     ]
   },
